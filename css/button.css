@@ -1,0 +1,57 @@
+button {
+  padding: 10px 16px;
+  background: white;
+  text-align: center;
+  display: inline-block;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 700;
+  position: relative;
+  will-change: transform;
+
+  border: none;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.95);
+  cursor: pointer;
+}
+
+.modal-btn {
+  margin-top: 10px;
+  letter-spacing: 0.05rem;
+  position: relative;
+  background: #000;
+  color: #fff;
+  border-radius: 0.3rem;
+  position: relative;
+  transition: 0.2s all ease-in-out;
+}
+
+.modal-btn:hover {
+  transform: translateY(-5px);
+}
+
+.modal-btn:before {
+  display: block;
+  position: absolute;
+  background: transparent;
+  border: none;
+  border-radius: 0.3rem;
+  transform: translateY(5px) scale(0.9);
+  content: "";
+  height: 5px;
+  z-index: -1;
+  bottom: -1%;
+  left: 0;
+  right: 0;
+  transition: 0.1s all ease-in-out;
+}
+
+.modal-btn:hover:before {
+  transform: translateY(8px) scale(0.8);
+  opacity: 0.8;
+}
+
+.modal-btn:focus {
+  color: #fff;
+  background-color: #95d1cc;
+}

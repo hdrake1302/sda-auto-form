@@ -1,0 +1,33 @@
+{
+  "name": "SDA - Auto Form",
+  "description": "Using this extension helps you copy your answers from a completed Google Form and paste it into a different one in no time. Furthermore, you could easily extract the answers into readable lines that you could share with others, or keep it for your personal purposes. myaloha.vn is also supported with an uncompleted form.",
+  "version": "2.2",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "./js/background.js"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["./scripts/functions.js"]
+    }
+  ],
+  "permissions": ["storage", "activeTab", "scripting"],
+  "host_permissions": ["https://docs.google.com/forms/*"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "/images/sign-form-16.png",
+      "32": "/images/sign-form-32.png",
+      "64": "/images/sign-form-64.png",
+      "128": "/images/sign-form-128.png"
+    }
+  },
+  "icons": {
+    "16": "/images/sign-form-16.png",
+    "32": "/images/sign-form-32.png",
+    "64": "/images/sign-form-64.png",
+    "128": "/images/sign-form-128.png"
+  }
+}
