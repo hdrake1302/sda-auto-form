@@ -4,35 +4,43 @@ function main() {
   const pasteForm = document.getElementById("pasteForm");
   const ignoreChoice = document.getElementById("ignore");
 
-  let hasIgnoreWrong = localStorage.getItem("hasIgnoreWrong");
+  var hasIgnoreWrong = localStorage.getItem("hasIgnoreWrong");
   if (hasIgnoreWrong === "true") {
     ignoreChoice.checked = true;
   }
 
   ignoreChoice.addEventListener("change", async () => {
-    localStorage.setItem("hasIgnoreWrong", ignoreChoice.checked);
+    hasIgnoreWrong = ignoreChoice.checked;
+    localStorage.setItem("hasIgnoreWrong", hasIgnoreWrong);
+
+    chrome.storage.sync.set({
+      choice: {
+        hasIgnoreWrong,
+      },
+    });
   });
 
   copyForm.addEventListener("click", async () => {
     const currentTab = await getCurrentTab();
-    const hasIgnoreWrong = ignoreChoice.checked;
 
     // Get the choice from user and send it
     sendMessage({
-      type: "copy-form",
+      type: "bg-handle-copy",
       data: {
-        hasIgnoreWrong,
         currentTab,
       },
     });
   });
 
   pasteForm.addEventListener("click", async () => {
-    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    const currentTab = await getCurrentTab();
 
-    chrome.scripting.executeScript({
-      target: { tabId: tab.id },
-      function: handlePaste,
+    // Get the choice from user and send it
+    sendMessage({
+      type: "bg-handle-paste",
+      data: {
+        currentTab,
+      },
     });
   });
 }
@@ -40,6 +48,7 @@ function main() {
 chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
   const currentTab = await getCurrentTab();
 
+  // Send signal to background to handle COPY incomplete Google Form
   if (request.type === "ggf-incomplete") {
     sendMessage({
       type: "bg-ggf-incomplete",
@@ -49,6 +58,7 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
     });
   }
 
+  // Send signal to background to handle COPY complete Google Form
   if (request.type === "ggf-complete") {
     sendMessage({
       type: "bg-ggf-complete",
@@ -58,11 +68,25 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
     });
   }
 
+  // Send signal to background to handle PASTE target Google Form
+  if (request.type === "ggf-target") {
+    sendMessage({
+      type: "bg-ggf-target",
+      data: {
+        currentTab,
+      },
+    });
+  }
+
+  // Finish handle copy Google Form
   if (request.type === "scrape-ggf") {
     const keys = request.data.keys;
+
     // Save the key
     chrome.storage.sync.set({ keys });
   }
+
+  // Keep the message channel open
   return true;
 });
 

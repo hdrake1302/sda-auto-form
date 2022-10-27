@@ -10,8 +10,17 @@ async function main() {
     const currentTab = request?.data?.currentTab;
 
     if (currentTab) {
-      if (request.type === "copy-form") {
-        const contentScriptPath = "scripts/copy-controller.js";
+      if (request.type === "bg-handle-copy") {
+        const contentScriptPath = "scripts/controller/copy-controller.js";
+
+        chrome.scripting.executeScript({
+          target: { tabId: currentTab.id },
+          files: [contentScriptPath],
+        });
+      }
+
+      if (request.type === "bg-handle-paste") {
+        const contentScriptPath = "scripts/controller/paste-controller.js";
 
         chrome.scripting.executeScript({
           target: { tabId: currentTab.id },
@@ -30,6 +39,16 @@ async function main() {
 
       if (request.type === "bg-ggf-complete") {
         const contentScriptPath = "scripts/ggf-complete.js";
+
+        chrome.scripting.executeScript({
+          target: { tabId: currentTab.id },
+          files: [contentScriptPath],
+        });
+      }
+
+      // Paste to the target
+      if (request.type === "bg-ggf-target") {
+        const contentScriptPath = "scripts/ggf-target.js";
 
         chrome.scripting.executeScript({
           target: { tabId: currentTab.id },

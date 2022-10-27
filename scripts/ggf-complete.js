@@ -1,12 +1,16 @@
 async function main() {
   var keys = {};
 
+  const choice = await chrome.storage.sync.get("choice");
+  const hasIgnoreWrong = choice.hasIgnoreWrong;
+
   const CLASS_TYPE = {
     QUESTION_ELEMENT: ".Qr7Oae",
     QUESTION_TEXT: ".M7eMe",
     RADIO_ELEMENT: ".yUJIWb",
     MULTI_ELEMENT: ".hfh9V",
   };
+
   const questionElements = document.querySelectorAll(
     CLASS_TYPE.QUESTION_ELEMENT
   );
@@ -16,21 +20,21 @@ async function main() {
       CLASS_TYPE.QUESTION_TEXT
     ).innerText;
 
-    console.log(questionValue);
     radioElement = questionElement.querySelector(CLASS_TYPE.RADIO_ELEMENT);
     multiElement = questionElement.querySelector(CLASS_TYPE.MULTI_ELEMENT);
 
     if (radioElement) {
-      const radioValue = handleRadio(questionElement);
+      const radioValue = getRadioValue(questionElement);
       keys[questionValue] = radioValue;
     }
 
     if (multiElement) {
-      handleMulti(questionElement);
+      const multiValues = getMultiValues(questionElement);
+      keys[questionValue] = multiValues;
     }
   });
 
-  function handleRadio(questionElement) {
+  function getRadioValue(questionElement) {
     const checkedElement = questionElement.querySelector(
       '[aria-checked="true"]'
     );
@@ -39,15 +43,26 @@ async function main() {
     return radioValue.trim();
   }
 
-  function handleMulti(questionElement) {
+  function getMultiValues(questionElement) {
     multiElements = questionElement.querySelectorAll(CLASS_TYPE.MULTI_ELEMENT);
+    multiValues = [];
 
     multiElements.forEach((currElement) => {
       const checkedElement = currElement.querySelector('[aria-checked="true"]');
+      if (checkedElement) {
+        multiValues.push(currElement.innerText.trim());
+      }
     });
+
+    return multiValues;
   }
 
-  console.log(keys);
+  sendMessage({
+    type: "scrape-ggf",
+    data: {
+      keys,
+    },
+  });
 }
 
 main();

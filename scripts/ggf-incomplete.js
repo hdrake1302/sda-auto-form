@@ -19,22 +19,24 @@ function main() {
     ).innerText;
 
     if (radioElement) {
-      handleRadio(questionValue, radioElement);
+      const radioValue = getRadioValue(radioElement);
+      keys[questionValue] = radioValue;
     }
 
     if (multiElement) {
-      handleMulti(questionValue, multiElement);
+      const multiValues = getMultiValues(multiElement);
+      keys[questionValue] = multiValues;
     }
   });
 
-  function handleRadio(questionValue, radioElement) {
+  function getRadioValue(radioElement) {
     radioValue = radioElement.querySelector('[aria-checked="true"]');
     radioValue = radioValue.dataset.value;
 
-    keys[questionValue] = radioValue.trim();
+    return radioValue.trim();
   }
 
-  function handleMulti(questionValue, multiElement) {
+  function getMultiValues(multiElement) {
     multiResult = [];
     multiValues = multiElement.querySelectorAll('[aria-checked="true"]');
 
@@ -43,7 +45,7 @@ function main() {
       multiResult.push(value.trim());
     });
 
-    keys[questionValue] = multiResult;
+    return multiResult;
   }
 
   sendMessage({
