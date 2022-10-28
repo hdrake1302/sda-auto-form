@@ -55,6 +55,16 @@ async function main() {
           files: [contentScriptPath],
         });
       }
+
+      // Paste to the target
+      if (request.type === "bg-sda-target") {
+        const contentScriptPath = "scripts/sda-target.js";
+
+        chrome.scripting.executeScript({
+          target: { tabId: currentTab.id },
+          files: [contentScriptPath],
+        });
+      }
     }
 
     return true;

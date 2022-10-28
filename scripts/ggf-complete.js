@@ -16,12 +16,12 @@ async function main() {
   );
 
   questionElements.forEach((questionElement, idx) => {
-    const questionValue = questionElement.querySelector(
-      CLASS_TYPE.QUESTION_TEXT
-    ).innerText;
+    const $ = questionElement.querySelector.bind(questionElement);
 
-    radioElement = questionElement.querySelector(CLASS_TYPE.RADIO_ELEMENT);
-    multiElement = questionElement.querySelector(CLASS_TYPE.MULTI_ELEMENT);
+    const questionValue = $(CLASS_TYPE.QUESTION_TEXT).innerText;
+
+    radioElement = $(CLASS_TYPE.RADIO_ELEMENT);
+    multiElement = $(CLASS_TYPE.MULTI_ELEMENT);
 
     if (radioElement) {
       const radioValue = getRadioValue(questionElement);
@@ -66,11 +66,3 @@ async function main() {
 }
 
 main();
-
-function sendMessage(message) {
-  return new Promise((resolve, reject) => {
-    chrome.runtime.sendMessage(message, (response) => {
-      resolve(response);
-    });
-  });
-}

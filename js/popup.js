@@ -78,6 +78,16 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
     });
   }
 
+  // Send signal to background to handle PASTE target Google Form
+  if (request.type === "sda-target") {
+    sendMessage({
+      type: "bg-sda-target",
+      data: {
+        currentTab,
+      },
+    });
+  }
+
   // Finish handle copy Google Form
   if (request.type === "scrape-ggf") {
     const keys = request.data.keys;

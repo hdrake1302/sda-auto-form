@@ -68,69 +68,10 @@ function getAnswer(questionBlock) {
   return result;
 }
 
-function formatWord(answers) {
-  // return a string that in Word Format
-
-  var result = "";
-
-  Object.keys(answers).forEach((question, idx) => {
-    let answer = answers[question];
-
-    if (!Array.isArray(answer)) {
-      result += `Câu hỏi ${idx + 1}: ${question}\n\tTrả lời: ${answer}\n\n`;
-    } else {
-      result += `Câu hỏi ${idx + 1}: ${question}\n\tTrả lời: \n`;
-      answer.forEach((currValue, idx) => {
-        result += `- ${currValue}\n`;
-
-        if (answer.length - 1 === idx) {
-          // Break lines at the end
-          result += "\n";
-        }
-      });
-    }
+function sendMessage(message) {
+  return new Promise((resolve, reject) => {
+    chrome.runtime.sendMessage(message, (response) => {
+      resolve(response);
+    });
   });
-  return result;
-}
-
-function extractAnswers() {
-  /**
-   * Function to extract the answers from a given string
-   * Input: None
-   * Output: answers dictionary that the extension could use
-   */
-
-  var answers = {};
-
-  var textField = document.querySelector("textarea");
-
-  var textValue = textField.value;
-
-  var questions = textValue.split("\n\n");
-
-  questions.forEach((currBlock, idx) => {
-    var [question, answer] = currBlock.split("\n\t");
-
-    if (question && answer) {
-      var qIndex = question?.indexOf(": ");
-      var aIndex = answer?.indexOf(": ");
-
-      var qSplits = [question.slice(0, qIndex), question.slice(qIndex + 2)];
-      var aSplits = [answer.slice(0, aIndex), answer.slice(aIndex + 2)];
-
-      question = qSplits[1].trim();
-      answer = aSplits[1].trim();
-
-      if (answer.match("\n- ")) {
-        // Multiple boxes
-        answer = answer.split("\n- ");
-        answers[question] = answer.splice(1);
-      } else {
-        // Radio box
-        answers[question] = answer;
-      }
-    }
-  });
-
-  return answers;
 }
