@@ -1,7 +1,8 @@
 async function main() {
-  var keys = {};
+  const keys = {};
 
-  const choice = await chrome.storage.sync.get("choice");
+  const data = await chrome.storage.sync.get("choice");
+  const choice = data.choice;
   const hasIgnoreWrong = choice.hasIgnoreWrong;
 
   const CLASS_TYPE = {
@@ -9,6 +10,8 @@ async function main() {
     QUESTION_TEXT: ".M7eMe",
     RADIO_ELEMENT: ".yUJIWb",
     MULTI_ELEMENT: ".hfh9V",
+    POINT_ELEMENT: ".RGoode",
+    RIGHT_ELEMENT: ".D42QGf .muwQbd",
   };
 
   const questionElements = document.querySelectorAll(
@@ -20,8 +23,8 @@ async function main() {
 
     const questionValue = $(CLASS_TYPE.QUESTION_TEXT).innerText;
 
-    radioElement = $(CLASS_TYPE.RADIO_ELEMENT);
-    multiElement = $(CLASS_TYPE.MULTI_ELEMENT);
+    const radioElement = $(CLASS_TYPE.RADIO_ELEMENT);
+    const multiElement = $(CLASS_TYPE.MULTI_ELEMENT);
 
     if (radioElement) {
       const radioValue = getRadioValue(questionElement);
@@ -32,7 +35,13 @@ async function main() {
       const multiValues = getMultiValues(questionElement);
       keys[questionValue] = multiValues;
     }
+
+    if (hasIgnoreWrong) {
+      handleCopyIgnore(questionElement, questionValue);
+    }
   });
+
+  console.log(keys);
 
   function getRadioValue(questionElement) {
     const checkedElement = questionElement.querySelector(
@@ -44,8 +53,10 @@ async function main() {
   }
 
   function getMultiValues(questionElement) {
-    multiElements = questionElement.querySelectorAll(CLASS_TYPE.MULTI_ELEMENT);
-    multiValues = [];
+    const multiElements = questionElement.querySelectorAll(
+      CLASS_TYPE.MULTI_ELEMENT
+    );
+    const multiValues = [];
 
     multiElements.forEach((currElement) => {
       const checkedElement = currElement.querySelector('[aria-checked="true"]');
@@ -55,6 +66,35 @@ async function main() {
     });
 
     return multiValues;
+  }
+
+  function handleCopyIgnore(questionElement, questionValue) {
+    const point = questionElement?.querySelector(CLASS_TYPE.POINT_ELEMENT);
+
+    if (point?.innerText !== "1/1") {
+      const rightElement = questionElement.querySelector(
+        CLASS_TYPE.RIGHT_ELEMENT
+      );
+      if (rightElement) {
+        const multiRightElement = rightElement.querySelector(".zTE4wf");
+        if (multiRightElement) {
+          // Deal with Multiple boxes
+          const rightElements = multiRightElement.querySelectorAll(".YEVVod");
+          const multiValues = [];
+          for (let i = 0; i < rightElements.length; i++) {
+            const rightValue = rightElements[i].innerText;
+            multiValues.push(rightValue.trim());
+          }
+          keys[questionValue] = multiValues;
+        } else {
+          // Else deal with Radio box
+          keys[questionValue] = rightElement.innerText.trim();
+        }
+      } else {
+        // Ignore wrong answer by delete it from keys
+        delete keys[questionValue];
+      }
+    }
   }
 
   sendMessage({

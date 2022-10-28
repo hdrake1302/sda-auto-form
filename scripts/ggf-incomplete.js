@@ -23,12 +23,12 @@ async function main() {
 
     if (radioElement) {
       const radioValue = getRadioValue(radioElement);
-      keys[questionValue] = radioValue;
+      if (radioValue) keys[questionValue] = radioValue;
     }
 
     if (multiElement) {
       const multiValues = getMultiValues(multiElement);
-      keys[questionValue] = multiValues;
+      if (multiValues.length > 0) keys[questionValue] = multiValues;
     }
   });
 
