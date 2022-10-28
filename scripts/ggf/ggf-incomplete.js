@@ -1,5 +1,5 @@
 async function main() {
-  var keys = {};
+  const keys = {};
   const choice = await chrome.storage.sync.get("choice");
   const hasIgnoreWrong = choice.hasIgnoreWrong;
 
@@ -9,6 +9,7 @@ async function main() {
     ANSWER_ELEMENT: "SG0AAe",
     RADIO_ELEMENT: ".oyXaNc",
     MULTI_ELEMENT: ".Y6Myld",
+    TEXT_ELEMENT: ".AgroKb",
   };
   const questionElements = document.querySelectorAll(
     CLASS_TYPE.QUESTION_ELEMENT
@@ -16,10 +17,11 @@ async function main() {
   questionElements.forEach((questionElement, idx) => {
     const $ = questionElement.querySelector.bind(questionElement);
 
-    radioElement = $(CLASS_TYPE.RADIO_ELEMENT);
-    multiElement = $(CLASS_TYPE.MULTI_ELEMENT);
+    const radioElement = $(CLASS_TYPE.RADIO_ELEMENT);
+    const multiElement = $(CLASS_TYPE.MULTI_ELEMENT);
+    const textElement = $(CLASS_TYPE.TEXT_ELEMENT);
 
-    questionValue = $(CLASS_TYPE.QUESTION_TEXT).innerText;
+    const questionValue = $(CLASS_TYPE.QUESTION_TEXT).innerText.trim();
 
     if (radioElement) {
       const radioValue = getRadioValue(radioElement);
@@ -30,25 +32,39 @@ async function main() {
       const multiValues = getMultiValues(multiElement);
       if (multiValues.length > 0) keys[questionValue] = multiValues;
     }
+
+    if (textElement) {
+      const textValue = getTextValue(textElement);
+      if (textValue) keys[questionValue] = textValue;
+    }
   });
 
   function getRadioValue(radioElement) {
-    radioValue = radioElement.querySelector('[aria-checked="true"]');
-    radioValue = radioValue.dataset.value;
+    const checkedElement = radioElement.querySelector('[aria-checked="true"]');
+    const radioValue = checkedElement.dataset.value;
 
     return radioValue.trim();
   }
 
   function getMultiValues(multiElement) {
-    multiResult = [];
-    multiValues = multiElement.querySelectorAll('[aria-checked="true"]');
+    const multiValues = [];
+    const checkedElements = multiElement.querySelectorAll(
+      '[aria-checked="true"]'
+    );
 
-    multiValues.forEach((multiValue) => {
-      value = multiValue.dataset.answerValue;
-      multiResult.push(value.trim());
+    checkedElements.forEach((checkedElement) => {
+      const multiValue = checkedElement.dataset.answerValue;
+      multiValues.push(multiValue.trim());
     });
 
-    return multiResult;
+    return multiValues;
+  }
+
+  function getTextValue(textElement) {
+    const inputElement = textElement.querySelector("input");
+    const textValue = inputElement.dataset.initialValue;
+
+    return textValue;
   }
 
   sendMessage({

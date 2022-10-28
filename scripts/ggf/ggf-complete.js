@@ -3,13 +3,14 @@ async function main() {
 
   const data = await chrome.storage.sync.get("choice");
   const choice = data.choice;
-  const hasIgnoreWrong = choice.hasIgnoreWrong;
+  const hasIgnoreWrong = choice?.hasIgnoreWrong;
 
   const CLASS_TYPE = {
     QUESTION_ELEMENT: ".Qr7Oae",
     QUESTION_TEXT: ".M7eMe",
     RADIO_ELEMENT: ".yUJIWb",
     MULTI_ELEMENT: ".hfh9V",
+    TEXT_ELEMENT: ".Mh5jwe",
     POINT_ELEMENT: ".RGoode",
     RIGHT_ELEMENT: ".D42QGf .muwQbd",
   };
@@ -21,10 +22,11 @@ async function main() {
   questionElements.forEach((questionElement, idx) => {
     const $ = questionElement.querySelector.bind(questionElement);
 
-    const questionValue = $(CLASS_TYPE.QUESTION_TEXT).innerText;
+    const questionValue = $(CLASS_TYPE.QUESTION_TEXT).innerText.trim();
 
     const radioElement = $(CLASS_TYPE.RADIO_ELEMENT);
     const multiElement = $(CLASS_TYPE.MULTI_ELEMENT);
+    const textElement = $(CLASS_TYPE.TEXT_ELEMENT);
 
     if (radioElement) {
       const radioValue = getRadioValue(questionElement);
@@ -34,6 +36,11 @@ async function main() {
     if (multiElement) {
       const multiValues = getMultiValues(questionElement);
       keys[questionValue] = multiValues;
+    }
+
+    if (textElement) {
+      const textValue = getTextValue(textElement);
+      keys[questionValue] = textValue;
     }
 
     if (hasIgnoreWrong) {
@@ -64,6 +71,10 @@ async function main() {
     });
 
     return multiValues;
+  }
+
+  function getTextValue(textElement) {
+    return textElement.innerText.trim();
   }
 
   function handleCopyIgnore(questionElement, questionValue) {

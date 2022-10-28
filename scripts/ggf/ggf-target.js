@@ -8,6 +8,7 @@ async function main() {
     ANSWER_ELEMENT: "SG0AAe",
     RADIO_ELEMENT: ".oyXaNc",
     MULTI_ELEMENT: ".Y6Myld",
+    TEXT_ELEMENT: ".AgroKb",
   };
 
   if (keys) {
@@ -20,6 +21,7 @@ async function main() {
 
       const radioElement = $(CLASS_TYPE.RADIO_ELEMENT);
       const multiElement = $(CLASS_TYPE.MULTI_ELEMENT);
+      const textElement = $(CLASS_TYPE.TEXT_ELEMENT);
 
       const questionValue = $(CLASS_TYPE.QUESTION_TEXT).innerText.trim();
 
@@ -34,6 +36,13 @@ async function main() {
           $(`[data-answer-value="${k}"]`).click();
         }
       }
+
+      // need to research more
+      // if (textElement) {
+      //   const inputElement = textElement.querySelector("input");
+      //   inputElement.value = key;
+      //   inputElement.dataset.initialValue = key;
+      // }
     });
   }
 }
