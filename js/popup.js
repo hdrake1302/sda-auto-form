@@ -4,6 +4,8 @@ function main() {
   const pasteForm = document.getElementById("pasteForm");
   const ignoreChoice = document.getElementById("ignore");
 
+  const keyElement = document.querySelector(".modal-header__key");
+
   var hasIgnoreWrong = localStorage.getItem("hasIgnoreWrong");
   if (hasIgnoreWrong === "true") {
     ignoreChoice.checked = true;
@@ -42,6 +44,24 @@ function main() {
         currentTab,
       },
     });
+  });
+
+  keyElement.addEventListener("click", async () => {
+    const inputKey = document.querySelector(".modal-header__input");
+    const title = document.querySelector(".modal-header__title");
+
+    title.classList.toggle("modal-header__title--hidden");
+    inputKey.classList.toggle("modal-header__input--hidden");
+
+    if (inputKey.classList.contains("modal-header__input--hidden")) {
+      const inputValue = inputKey.value;
+      const keys = inputValue ? JSON.parse(inputValue) : null;
+
+      if (keys) {
+        console.log(keys);
+        await chrome.storage.sync.set({ keys });
+      }
+    }
   });
 }
 

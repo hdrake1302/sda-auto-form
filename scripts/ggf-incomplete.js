@@ -1,5 +1,8 @@
-function main() {
+async function main() {
   var keys = {};
+  const choice = await chrome.storage.sync.get("choice");
+  const hasIgnoreWrong = choice.hasIgnoreWrong;
+
   const CLASS_TYPE = {
     QUESTION_ELEMENT: ".geS5n",
     QUESTION_TEXT: ".M7eMe",

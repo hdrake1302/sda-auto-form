@@ -6,12 +6,6 @@ async function main() {
 
   const textField = document.querySelector("textarea");
   textField.value = wordExtract;
-
-  const copyBtn = document.querySelector("#copy-btn");
-
-  copyBtn.onclick = function () {
-    console.log("COpied");
-  };
 }
 
 function formatWord(keys) {
@@ -37,51 +31,6 @@ function formatWord(keys) {
     }
   });
   return result;
-}
-
-function extractAnswers() {
-  /**
-   * Function to extract the answers from a given string
-   * Input: None
-   * Output: answers dictionary that the extension could use
-   */
-
-  var answers = {};
-
-  var textField = document.querySelector("textarea");
-
-  var textValue = textField.value;
-
-  console.log(JSON.parse(textValue.split("\n\n")[0]));
-  var questions = textValue.split("\n\n");
-
-  return;
-
-  questions.forEach((currBlock, idx) => {
-    var [question, answer] = currBlock.split("\n\t");
-
-    if (question && answer) {
-      var qIndex = question?.indexOf(": ");
-      var aIndex = answer?.indexOf(": ");
-
-      var qSplits = [question.slice(0, qIndex), question.slice(qIndex + 2)];
-      var aSplits = [answer.slice(0, aIndex), answer.slice(aIndex + 2)];
-
-      question = qSplits[1].trim();
-      answer = aSplits[1].trim();
-
-      if (answer.match("\n- ")) {
-        // Multiple boxes
-        answer = answer.split("\n- ");
-        answers[question] = answer.splice(1);
-      } else {
-        // Radio box
-        answers[question] = answer;
-      }
-    }
-  });
-
-  return answers;
 }
 
 main();
