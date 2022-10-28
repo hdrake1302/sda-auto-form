@@ -41,8 +41,6 @@ async function main() {
     }
   });
 
-  console.log(keys);
-
   function getRadioValue(questionElement) {
     const checkedElement = questionElement.querySelector(
       '[aria-checked="true"]'

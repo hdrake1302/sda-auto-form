@@ -29,7 +29,7 @@ async function main() {
       }
 
       if (request.type === "bg-ggf-incomplete") {
-        const contentScriptPath = "scripts/ggf-incomplete.js";
+        const contentScriptPath = "scripts/ggf/ggf-incomplete.js";
 
         chrome.scripting.executeScript({
           target: { tabId: currentTab.id },
@@ -38,7 +38,7 @@ async function main() {
       }
 
       if (request.type === "bg-ggf-complete") {
-        const contentScriptPath = "scripts/ggf-complete.js";
+        const contentScriptPath = "scripts/ggf/ggf-complete.js";
 
         chrome.scripting.executeScript({
           target: { tabId: currentTab.id },
@@ -48,7 +48,7 @@ async function main() {
 
       // Paste to the target
       if (request.type === "bg-ggf-target") {
-        const contentScriptPath = "scripts/ggf-target.js";
+        const contentScriptPath = "scripts/ggf/ggf-target.js";
 
         chrome.scripting.executeScript({
           target: { tabId: currentTab.id },

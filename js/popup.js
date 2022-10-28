@@ -46,6 +46,7 @@ function main() {
     });
   });
 
+  // Get keys from user input
   keyElement.addEventListener("click", async () => {
     const inputKey = document.querySelector(".modal-header__input");
     const title = document.querySelector(".modal-header__title");
@@ -58,7 +59,6 @@ function main() {
       const keys = inputValue ? JSON.parse(inputValue) : null;
 
       if (keys) {
-        console.log(keys);
         await chrome.storage.sync.set({ keys });
       }
     }
