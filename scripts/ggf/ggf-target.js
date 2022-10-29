@@ -1,5 +1,5 @@
 async function main() {
-  const data = await chrome.storage.sync.get("keys");
+  const data = await chrome.storage.local.get("keys");
   const keys = data.keys;
 
   const CLASS_TYPE = {
