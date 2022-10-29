@@ -1,7 +1,6 @@
 async function main() {
   const keys = {};
   const choice = await chrome.storage.sync.get("choice");
-  const hasIgnoreWrong = choice.hasIgnoreWrong;
 
   const CLASS_TYPE = {
     QUESTION_ELEMENT: ".geS5n",
