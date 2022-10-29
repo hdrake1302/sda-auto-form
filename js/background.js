@@ -1,7 +1,7 @@
 async function main() {
   chrome.runtime.onInstalled.addListener(() => {
     chrome.tabs.create({
-      url: "https://www.facebook.com/groups/sharedapantdtu",
+      url: "https://youtu.be/VJ5C2IVfhFM",
     });
   });
 
