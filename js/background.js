@@ -1,4 +1,10 @@
 async function main() {
+  chrome.runtime.onInstalled.addListener(() => {
+    chrome.tabs.create({
+      url: "https://www.facebook.com/groups/sharedapantdtu",
+    });
+  });
+
   chrome.action.onClicked.addListener((tab) => {
     chrome.scripting.executeScript({
       target: { tabId: tab.id },

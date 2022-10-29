@@ -6,12 +6,13 @@ async function main() {
 
   const textField = document.querySelector("textarea");
   textField.value = wordExtract;
+  textField.dataset.value = JSON.stringify(keys);
 }
 
 function formatWord(keys) {
   // return a string that in Word Format
 
-  var result = `${JSON.stringify(keys)}\n\n`;
+  var result = ``;
 
   Object.keys(keys).forEach((question, idx) => {
     let key = keys[question];

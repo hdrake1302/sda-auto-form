@@ -1,6 +1,5 @@
 async function main() {
   const keys = {};
-  const choice = await chrome.storage.sync.get("choice");
 
   const CLASS_TYPE = {
     QUESTION_ELEMENT: ".geS5n",
@@ -40,7 +39,7 @@ async function main() {
 
   function getRadioValue(radioElement) {
     const checkedElement = radioElement.querySelector('[aria-checked="true"]');
-    const radioValue = checkedElement.dataset.value;
+    const radioValue = checkedElement ? checkedElement.dataset.value : "";
 
     return radioValue.trim();
   }
