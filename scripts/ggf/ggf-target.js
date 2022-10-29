@@ -27,22 +27,29 @@ async function main() {
 
       const key = keys[questionValue];
 
-      if (radioElement) {
-        $(`[data-value="${key}"]`).click();
-      }
+      if (key) {
+        if (radioElement) {
+          $(`[data-value="${key}"]`).click();
+        }
 
-      if (multiElement) {
-        for (k of key) {
-          $(`[data-answer-value="${k}"]`).click();
+        if (multiElement) {
+          for (k of key) {
+            $(`[data-answer-value="${k}"]`).click();
+          }
+        }
+
+        if (textElement) {
+          const inputElement = textElement.querySelector("input");
+          const inputWrap = inputElement.closest(".rFrNMe");
+
+          // so that the placeholder will disappear
+          inputWrap.classList.add("CDELXb");
+
+          inputElement.value = key;
+          inputElement.dataset.initialValue = key;
+          inputElement.setAttribute("badinput", false);
         }
       }
-
-      // need to research more
-      // if (textElement) {
-      //   const inputElement = textElement.querySelector("input");
-      //   inputElement.value = key;
-      //   inputElement.dataset.initialValue = key;
-      // }
     });
   }
 }
