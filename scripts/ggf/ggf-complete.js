@@ -86,7 +86,12 @@ async function main() {
       );
       if (rightElement) {
         const multiRightElement = rightElement.querySelector(".zTE4wf");
-        if (multiRightElement) {
+        const shortAnswerElement = rightElement.querySelector(".ZYU5Rd");
+
+        if (shortAnswerElement) {
+          // Deal with short answer
+          keys[questionValue] = shortAnswerElement.innerText.trim();
+        } else if (multiRightElement) {
           // Deal with Multiple boxes
           const rightElements = multiRightElement.querySelectorAll(".YEVVod");
           const multiValues = [];
