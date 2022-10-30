@@ -1,7 +1,9 @@
 async function main() {
   const keys = {};
 
-  const data = await chrome.storage.sync.get("choice");
+  const data = await chrome.storage.local.get("choice");
+
+  console.log(data);
   const choice = data.choice;
   const hasIgnoreWrong = choice?.hasIgnoreWrong;
 
