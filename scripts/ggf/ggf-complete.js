@@ -3,7 +3,6 @@ async function main() {
 
   const data = await chrome.storage.local.get("choice");
 
-  console.log(data);
   const choice = data.choice;
   const hasIgnoreWrong = choice?.hasIgnoreWrong;
 
