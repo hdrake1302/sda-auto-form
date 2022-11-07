@@ -15,7 +15,7 @@ function main() {
     hasIgnoreWrong = ignoreChoice.checked;
     localStorage.setItem("hasIgnoreWrong", hasIgnoreWrong);
 
-    chrome.storage.local.set({
+    chrome.storage.sync.set({
       choice: {
         hasIgnoreWrong,
       },
