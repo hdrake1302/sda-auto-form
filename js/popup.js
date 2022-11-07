@@ -15,7 +15,7 @@ function main() {
     hasIgnoreWrong = ignoreChoice.checked;
     localStorage.setItem("hasIgnoreWrong", hasIgnoreWrong);
 
-    chrome.storage.sync.set({
+    chrome.storage.local.set({
       choice: {
         hasIgnoreWrong,
       },
@@ -59,7 +59,7 @@ function main() {
       const keys = inputValue ? JSON.parse(inputValue) : null;
 
       if (keys) {
-        await chrome.storage.sync.set({ keys });
+        await chrome.storage.local.set({ keys });
       }
     }
   });
@@ -133,7 +133,7 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
     const keys = request.data.keys;
 
     // Save the key
-    chrome.storage.sync.set({ keys });
+    chrome.storage.local.set({ keys });
   }
 
   // Keep the message channel open

@@ -1,10 +1,11 @@
 async function main() {
-  const data = await chrome.storage.sync.get("keys");
+  const data = await chrome.storage.local.get("keys");
   const keys = data.keys;
 
   const wordExtract = formatWord(keys);
 
   const textField = document.querySelector("textarea");
+
   textField.value = wordExtract;
   textField.dataset.value = JSON.stringify(keys);
 }

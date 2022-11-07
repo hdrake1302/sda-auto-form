@@ -1,7 +1,8 @@
 async function main() {
   const keys = {};
 
-  const data = await chrome.storage.sync.get("choice");
+  const data = await chrome.storage.local.get("choice");
+
   const choice = data.choice;
   const hasIgnoreWrong = choice?.hasIgnoreWrong;
 
@@ -80,28 +81,35 @@ async function main() {
   function handleCopyIgnore(questionElement, questionValue) {
     const point = questionElement?.querySelector(CLASS_TYPE.POINT_ELEMENT);
 
-    if (point?.innerText !== "1/1") {
-      const rightElement = questionElement.querySelector(
-        CLASS_TYPE.RIGHT_ELEMENT
-      );
-      if (rightElement) {
-        const multiRightElement = rightElement.querySelector(".zTE4wf");
-        if (multiRightElement) {
-          // Deal with Multiple boxes
-          const rightElements = multiRightElement.querySelectorAll(".YEVVod");
-          const multiValues = [];
-          for (let i = 0; i < rightElements.length; i++) {
-            const rightValue = rightElements[i].innerText;
-            multiValues.push(rightValue.trim());
+    if (point) {
+      if (point.innerText !== "1/1") {
+        const rightElement = questionElement.querySelector(
+          CLASS_TYPE.RIGHT_ELEMENT
+        );
+        if (rightElement) {
+          const multiRightElement = rightElement.querySelector(".zTE4wf");
+          const shortAnswerElement = rightElement.querySelector(".ZYU5Rd");
+
+          if (shortAnswerElement) {
+            // Deal with short answer
+            keys[questionValue] = shortAnswerElement.innerText.trim();
+          } else if (multiRightElement) {
+            // Deal with Multiple boxes
+            const rightElements = multiRightElement.querySelectorAll(".YEVVod");
+            const multiValues = [];
+            for (let i = 0; i < rightElements.length; i++) {
+              const rightValue = rightElements[i].innerText;
+              multiValues.push(rightValue.trim());
+            }
+            keys[questionValue] = multiValues;
+          } else {
+            // Else deal with Radio box
+            keys[questionValue] = rightElement.innerText.trim();
           }
-          keys[questionValue] = multiValues;
         } else {
-          // Else deal with Radio box
-          keys[questionValue] = rightElement.innerText.trim();
+          // Ignore wrong answer by delete it from keys
+          delete keys[questionValue];
         }
-      } else {
-        // Ignore wrong answer by delete it from keys
-        delete keys[questionValue];
       }
     }
   }
