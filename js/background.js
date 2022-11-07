@@ -62,9 +62,29 @@ async function main() {
         });
       }
 
+      // Copy Myaloha
+      if (request.type === "bg-myaloha-incomplete") {
+        const contentScriptPath = "scripts/myaloha/myaloha-incomplete.js";
+
+        chrome.scripting.executeScript({
+          target: { tabId: currentTab.id },
+          files: [contentScriptPath],
+        });
+      }
+
       // Paste to the target
       if (request.type === "bg-sda-target") {
         const contentScriptPath = "scripts/sda-target.js";
+
+        chrome.scripting.executeScript({
+          target: { tabId: currentTab.id },
+          files: [contentScriptPath],
+        });
+      }
+
+      // Paste to the target
+      if (request.type === "bg-myaloha-target") {
+        const contentScriptPath = "scripts/myaloha/myaloha-target.js";
 
         chrome.scripting.executeScript({
           target: { tabId: currentTab.id },

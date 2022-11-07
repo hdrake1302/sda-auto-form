@@ -2,6 +2,7 @@ function main() {
   const QUERY_TYPE = {
     GGF_INCOMPLETE: ".geS5n",
     GGF_COMPLETE: ".OxAavc",
+    MYALOHA_INCOMPLETE: "#confirmFinishModal",
   };
 
   if (document.querySelector(QUERY_TYPE.GGF_INCOMPLETE)) {
@@ -13,6 +14,12 @@ function main() {
   if (document.querySelector(QUERY_TYPE.GGF_COMPLETE)) {
     sendMessage({
       type: "ggf-complete",
+    });
+  }
+
+  if (document.querySelector(QUERY_TYPE.MYALOHA_INCOMPLETE)) {
+    sendMessage({
+      type: "myaloha-incomplete",
     });
   }
 }

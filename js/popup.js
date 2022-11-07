@@ -98,6 +98,26 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
     });
   }
 
+  // Send signal to background to handle COPY incomplete My Aloha
+  if (request.type === "myaloha-incomplete") {
+    sendMessage({
+      type: "bg-myaloha-incomplete",
+      data: {
+        currentTab,
+      },
+    });
+  }
+
+  // Send signal to background to handle PASTE target My Aloha
+  if (request.type === "myaloha-target") {
+    sendMessage({
+      type: "bg-myaloha-target",
+      data: {
+        currentTab,
+      },
+    });
+  }
+
   // Send signal to background to handle PASTE target Google Form
   if (request.type === "sda-target") {
     sendMessage({
