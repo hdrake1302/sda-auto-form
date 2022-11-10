@@ -3,6 +3,7 @@ function main() {
     GGF_TARGET: ".geS5n",
     SDA_SHARE: "#sda-word-extract",
     MYALOHA_TARGET: "#confirmFinishModal",
+    ELEARNING_TARGET: ".multichoice.deferredfeedback",
   };
 
   if (document.querySelector(QUERY_TYPE.GGF_TARGET)) {

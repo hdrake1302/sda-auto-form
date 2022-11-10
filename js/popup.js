@@ -118,6 +118,36 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
     });
   }
 
+  // Send signal to background to handle COPY incomplete TDTU ELEARNING
+  if (request.type === "elearning-incomplete") {
+    sendMessage({
+      type: "bg-elearning-incomplete",
+      data: {
+        currentTab,
+      },
+    });
+  }
+
+  // Send signal to background to handle COPY complete ELEARNING
+  if (request.type === "elearning-complete") {
+    sendMessage({
+      type: "bg-elearning-complete",
+      data: {
+        currentTab,
+      },
+    });
+  }
+
+  // Send signal to background to handle PASTE target TDTU ELEARNING
+  if (request.type === "elearning-target") {
+    sendMessage({
+      type: "bg-elearning-target",
+      data: {
+        currentTab,
+      },
+    });
+  }
+
   // Send signal to background to handle PASTE target Google Form
   if (request.type === "sda-target") {
     sendMessage({

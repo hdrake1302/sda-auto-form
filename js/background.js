@@ -82,6 +82,36 @@ async function main() {
         });
       }
 
+      // Copy TDTU ELEARNING
+      if (request.type === "bg-elearning-incomplete") {
+        const contentScriptPath = "scripts/elearning/elearning-incomplete.js";
+
+        chrome.scripting.executeScript({
+          target: { tabId: currentTab.id },
+          files: [contentScriptPath],
+        });
+      }
+
+      // Copy TDTU ELEARNING
+      if (request.type === "bg-elearning-complete") {
+        const contentScriptPath = "scripts/elearning/elearning-complete.js";
+
+        chrome.scripting.executeScript({
+          target: { tabId: currentTab.id },
+          files: [contentScriptPath],
+        });
+      }
+
+      // Paste to the target
+      if (request.type === "bg-elearning-target") {
+        const contentScriptPath = "scripts/elearning/elearning-target.js";
+
+        chrome.scripting.executeScript({
+          target: { tabId: currentTab.id },
+          files: [contentScriptPath],
+        });
+      }
+
       // Paste to the target
       if (request.type === "bg-myaloha-target") {
         const contentScriptPath = "scripts/myaloha/myaloha-target.js";

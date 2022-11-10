@@ -3,6 +3,8 @@ function main() {
     GGF_INCOMPLETE: ".geS5n",
     GGF_COMPLETE: ".OxAavc",
     MYALOHA_INCOMPLETE: "#confirmFinishModal",
+    ELEARNING_INCOMPLETE: ".multichoice.deferredfeedback",
+    ELEARNING_COMPLETE: ".questionflagsaveform",
   };
 
   if (document.querySelector(QUERY_TYPE.GGF_INCOMPLETE)) {
@@ -20,6 +22,12 @@ function main() {
   if (document.querySelector(QUERY_TYPE.MYALOHA_INCOMPLETE)) {
     sendMessage({
       type: "myaloha-incomplete",
+    });
+  }
+
+  if (document.querySelector(QUERY_TYPE.ELEARNING_COMPLETE)) {
+    sendMessage({
+      type: "elearning-complete",
     });
   }
 }
