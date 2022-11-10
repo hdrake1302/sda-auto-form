@@ -1,10 +1,10 @@
 async function main() {
   const keys = {};
 
-  const data = await chrome.storage.sync.get("choice");
+  const { choice } = await chrome.storage.sync.get("choice");
 
-  const choice = data.choice;
-  const hasIgnoreWrong = choice?.hasIgnoreWrong;
+  const hasIgnoreWrong = choice.hasIgnoreWrong;
+  const hasRandom = choice.hasRandom;
 
   const CLASS_TYPE = {
     QUESTION_ELEMENT: ".Qr7Oae",

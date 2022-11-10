@@ -1,6 +1,6 @@
 async function main() {
-  const data = await chrome.storage.local.get("keys");
-  const keys = data.keys;
+  const { keys } = await chrome.storage.local.get("keys");
+  const { choice } = await chrome.storage.sync.get("choice");
 
   const CLASS_TYPE = {
     QUESTION_ELEMENT: ".geS5n",

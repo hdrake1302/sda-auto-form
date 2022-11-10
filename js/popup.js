@@ -1,25 +1,36 @@
-function main() {
+async function main() {
   // Initialize button with user's preferred color
   const copyForm = document.getElementById("copyForm");
   const pasteForm = document.getElementById("pasteForm");
   const ignoreChoice = document.getElementById("ignore");
+  const randomChoice = document.getElementById("random");
 
   const keyElement = document.querySelector(".modal-header__key");
 
-  var hasIgnoreWrong = localStorage.getItem("hasIgnoreWrong");
-  if (hasIgnoreWrong === "true") {
-    ignoreChoice.checked = true;
-  }
+  const { choice } = await chrome.storage.sync.get("choice");
 
-  ignoreChoice.addEventListener("change", async () => {
-    hasIgnoreWrong = ignoreChoice.checked;
-    localStorage.setItem("hasIgnoreWrong", hasIgnoreWrong);
+  if (!choice) {
+    // Init choice
 
     chrome.storage.sync.set({
       choice: {
-        hasIgnoreWrong,
+        hasIgnoreWrong: false,
+        hasRandom: false,
       },
     });
+  } else {
+    ignoreChoice.checked = choice.hasIgnoreWrong;
+    randomChoice.checked = choice.hasRandom;
+  }
+
+  ignoreChoice.addEventListener("change", async () => {
+    choice.hasIgnoreWrong = ignoreChoice.checked;
+    chrome.storage.sync.set({ choice });
+  });
+
+  randomChoice.addEventListener("change", async () => {
+    choice.hasRandom = randomChoice.checked;
+    chrome.storage.sync.set({ choice });
   });
 
   copyForm.addEventListener("click", async () => {

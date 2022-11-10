@@ -1,6 +1,5 @@
 async function main() {
-  const data = await chrome.storage.local.get("keys");
-  const keys = data.keys;
+  const { keys } = await chrome.storage.local.get("keys");
 
   const wordExtract = formatWord(keys);
 
