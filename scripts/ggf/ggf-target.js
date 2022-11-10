@@ -49,9 +49,30 @@ async function main() {
           inputElement.dataset.initialValue = key;
           inputElement.setAttribute("badinput", false);
         }
+      } else if (choice.hasRandom) {
+        handleRandom();
       }
     });
   }
+
+  function handleRandom() {
+    const radioElement = $(CLASS_TYPE.RADIO_ELEMENT);
+    const multiElement = $(CLASS_TYPE.MULTI_ELEMENT);
+
+    if (radioElement) {
+      $(`[data-value="${key}"]`).click();
+    }
+
+    if (multiElement) {
+      for (k of key) {
+        $(`[data-answer-value="${k}"]`).click();
+      }
+    }
+  }
+
+  function handleRandomRadio() {}
+
+  function handleRandomMulti() {}
 }
 
 main();
