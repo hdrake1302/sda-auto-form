@@ -1,3 +1,17 @@
+function normalizeString(string) {
+  // Remove different whitespace (by character)
+  return string.replace(/\s+/g, " ");
+}
+
+function normalizeKeys(keys) {
+  const normalizeKeys = {};
+  Object.keys(keys).forEach((key) => {
+    normalizeKeys[normalizeString(key)] = keys[key];
+  });
+
+  return normalizeKeys;
+}
+
 function main() {
   // Initialize button with user's preferred color
   const copyForm = document.getElementById("copyForm");
@@ -56,9 +70,12 @@ function main() {
 
     if (inputKey.classList.contains("modal-header__input--hidden")) {
       const inputValue = inputKey.value;
-      const keys = inputValue ? JSON.parse(inputValue) : null;
+      const inputKeys = inputValue ? JSON.parse(inputValue) : null;
 
-      if (keys) {
+      console.log(inputKeys);
+      if (inputKeys) {
+        // Normalize string with different white spaces
+        const keys = normalizeKeys(inputKeys);
         await chrome.storage.local.set({ keys });
       }
     }
