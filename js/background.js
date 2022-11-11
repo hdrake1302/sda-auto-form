@@ -72,9 +72,19 @@ async function main() {
         });
       }
 
-      // Paste to the target
+      // Paste to the sda target
       if (request.type === "bg-sda-target") {
-        const contentScriptPath = "scripts/sda-target.js";
+        const contentScriptPath = "scripts/sda/sda-target.js";
+
+        chrome.scripting.executeScript({
+          target: { tabId: currentTab.id },
+          files: [contentScriptPath],
+        });
+      }
+
+      // Copy from the sda web
+      if (request.type === "bg-sda-copy") {
+        const contentScriptPath = "scripts/sda/sda-copy.js";
 
         chrome.scripting.executeScript({
           target: { tabId: currentTab.id },

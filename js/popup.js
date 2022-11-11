@@ -1,17 +1,3 @@
-function normalizeString(string) {
-  // Remove different whitespace (by character)
-  return string.replace(/\s+/g, " ");
-}
-
-function normalizeKeys(keys) {
-  const normalizeKeys = {};
-  Object.keys(keys).forEach((key) => {
-    normalizeKeys[normalizeString(key)] = keys[key];
-  });
-
-  return normalizeKeys;
-}
-
 async function main() {
   // Initialize button with user's preferred color
   const copyForm = document.getElementById("copyForm");
@@ -30,6 +16,7 @@ async function main() {
       choice: {
         hasIgnoreWrong: false,
         hasRandom: false,
+        isInput: false,
       },
     });
   } else {
@@ -83,89 +70,120 @@ async function main() {
       const inputValue = inputKey.value;
       const inputKeys = inputValue ? JSON.parse(inputValue) : null;
 
+      let keys = {};
       if (inputKeys) {
         // Normalize string with different white spaces
-        const keys = normalizeKeys(inputKeys);
-        await chrome.storage.local.set({ keys });
+        keys = normalizeKeys(inputKeys);
+        choice.isInput = true;
+        await chrome.storage.sync.set({ choice });
       }
+      await chrome.storage.local.set({ keys });
     }
   });
+
+  chrome.runtime.onMessage.addListener(
+    async (request, sender, sendResponse) => {
+      const currentTab = await getCurrentTab();
+
+      // Send signal to background to handle COPY incomplete Google Form
+      if (request.type === "ggf-incomplete") {
+        sendMessage({
+          type: "bg-ggf-incomplete",
+          data: {
+            currentTab,
+          },
+        });
+      }
+
+      // Send signal to background to handle COPY complete Google Form
+      if (request.type === "ggf-complete") {
+        sendMessage({
+          type: "bg-ggf-complete",
+          data: {
+            currentTab,
+          },
+        });
+      }
+
+      // Send signal to background to handle PASTE target Google Form
+      if (request.type === "ggf-target") {
+        sendMessage({
+          type: "bg-ggf-target",
+          data: {
+            currentTab,
+          },
+        });
+      }
+
+      // Send signal to background to handle COPY incomplete My Aloha
+      if (request.type === "myaloha-incomplete") {
+        sendMessage({
+          type: "bg-myaloha-incomplete",
+          data: {
+            currentTab,
+          },
+        });
+      }
+
+      // Send signal to background to handle PASTE target My Aloha
+      if (request.type === "myaloha-target") {
+        sendMessage({
+          type: "bg-myaloha-target",
+          data: {
+            currentTab,
+          },
+        });
+      }
+
+      // Send signal to background to handle PASTE keys
+      if (request.type === "sda-target") {
+        sendMessage({
+          type: "bg-sda-target",
+          data: {
+            currentTab,
+          },
+        });
+      }
+
+      // Send signal to background to handle COPY keys
+      if (request.type === "sda-copy") {
+        sendMessage({
+          type: "bg-sda-copy",
+          data: {
+            currentTab,
+          },
+        });
+      }
+
+      // Finish handle copy Google Form
+      if (request.type === "save-keys") {
+        const keys = request.data.keys;
+
+        choice.isInput = false;
+        await chrome.storage.sync.set({ choice });
+        // Save the key
+        await chrome.storage.local.set({ keys });
+      }
+
+      // Keep the message channel open
+      return true;
+    }
+  );
 }
 
-chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
-  const currentTab = await getCurrentTab();
+function normalizeString(string) {
+  // Remove different whitespace (by character)
+  return string.replace(/\s+/g, " ");
+}
 
-  // Send signal to background to handle COPY incomplete Google Form
-  if (request.type === "ggf-incomplete") {
-    sendMessage({
-      type: "bg-ggf-incomplete",
-      data: {
-        currentTab,
-      },
-    });
-  }
+function normalizeKeys(keys) {
+  const normalizeKeys = {};
+  Object.keys(keys).forEach((key) => {
+    normalizeKeys[normalizeString(key)] = keys[key];
+  });
 
-  // Send signal to background to handle COPY complete Google Form
-  if (request.type === "ggf-complete") {
-    sendMessage({
-      type: "bg-ggf-complete",
-      data: {
-        currentTab,
-      },
-    });
-  }
-
-  // Send signal to background to handle PASTE target Google Form
-  if (request.type === "ggf-target") {
-    sendMessage({
-      type: "bg-ggf-target",
-      data: {
-        currentTab,
-      },
-    });
-  }
-
-  // Send signal to background to handle COPY incomplete My Aloha
-  if (request.type === "myaloha-incomplete") {
-    sendMessage({
-      type: "bg-myaloha-incomplete",
-      data: {
-        currentTab,
-      },
-    });
-  }
-
-  // Send signal to background to handle PASTE target My Aloha
-  if (request.type === "myaloha-target") {
-    sendMessage({
-      type: "bg-myaloha-target",
-      data: {
-        currentTab,
-      },
-    });
-  }
-
-  // Send signal to background to handle PASTE target Google Form
-  if (request.type === "sda-target") {
-    sendMessage({
-      type: "bg-sda-target",
-      data: {
-        currentTab,
-      },
-    });
-  }
-
-  // Finish handle copy Google Form
-  if (request.type === "scrape-ggf") {
-    const keys = request.data.keys;
-
-    // Save the key
-    chrome.storage.local.set({ keys });
-  }
-
-  // Keep the message channel open
-  return true;
-});
+  return normalizeKeys;
+}
 
 function sendMessage(message) {
   return new Promise((resolve, reject) => {

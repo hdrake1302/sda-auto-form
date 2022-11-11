@@ -4,7 +4,6 @@ async function main() {
   const { choice } = await chrome.storage.sync.get("choice");
 
   const hasIgnoreWrong = choice.hasIgnoreWrong;
-  const hasRandom = choice.hasRandom;
 
   const CLASS_TYPE = {
     QUESTION_ELEMENT: ".Qr7Oae",
@@ -115,7 +114,7 @@ async function main() {
   }
 
   sendMessage({
-    type: "scrape-ggf",
+    type: "save-keys",
     data: {
       keys,
     },

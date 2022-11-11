@@ -23,9 +23,11 @@ async function main() {
       const multiElement = $(CLASS_TYPE.MULTI_ELEMENT);
       const textElement = $(CLASS_TYPE.TEXT_ELEMENT);
 
-      const questionValue = normalizeString(
-        $(CLASS_TYPE.QUESTION_TEXT).innerText.trim()
-      );
+      const questionText = $(CLASS_TYPE.QUESTION_TEXT).innerText.trim();
+      // input key may contains difference white space so we have to normalize it
+      const questionValue = choice.isInput
+        ? normalizeString(questionText)
+        : questionText;
 
       const key = keys[questionValue];
 
@@ -60,14 +62,14 @@ async function main() {
   function handleRandom(radioElement, multiElement) {
     if (radioElement) {
       const allRadios = radioElement.querySelectorAll('[aria-checked="false"]');
-      const randomIndex = generateInputIndex();
+      const randomIndex = generateInputIndex(allRadios.length);
 
       allRadios[randomIndex].click();
     }
 
     if (multiElement) {
       const allMultis = multiElement.querySelectorAll('[aria-checked="false"]');
-      const randomIndexes = generateInputIndex((isMulti = true));
+      const randomIndexes = generateInputIndex(allMultis.length, true);
 
       for (randomIndex of randomIndexes) {
         allMultis[randomIndex].click();
@@ -75,11 +77,11 @@ async function main() {
     }
   }
 
-  function generateInputIndex(isMulti = false) {
+  function generateInputIndex(length = 4, isMulti = false) {
     // Generate random index for clicking purpose
     if (isMulti) {
       const randomIndexes = [];
-      const numOfAnswers = generateRandomNum();
+      const numOfAnswers = generateRandomNum(length);
 
       let i = 0;
       while (i <= numOfAnswers) {
@@ -96,13 +98,13 @@ async function main() {
     }
 
     // If radio then return randomIndex
-    const randomIndex = generateRandomNum();
+    const randomIndex = generateRandomNum(length);
     return randomIndex;
   }
 
-  function generateRandomNum() {
+  function generateRandomNum(length = 4) {
     // Generate a random number from 0 to 3
-    return Math.floor(Math.random() * 4);
+    return Math.floor(Math.random() * length);
   }
 }
 

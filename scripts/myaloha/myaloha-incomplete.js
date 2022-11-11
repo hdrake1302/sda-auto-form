@@ -24,7 +24,7 @@ async function main() {
   }
 
   sendMessage({
-    type: "scrape-ggf",
+    type: "save-keys",
     data: {
       keys,
     },

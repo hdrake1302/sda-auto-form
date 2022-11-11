@@ -1,6 +1,7 @@
 async function main() {
   const { keys } = await chrome.storage.local.get("keys");
   const { choice } = await chrome.storage.sync.get("choice");
+
   if (keys) {
     // My AloHa
     var questions = document.querySelectorAll(".quiz-list-wrap .content");
@@ -13,20 +14,33 @@ async function main() {
         const questionText = questionBlock
           .querySelector(".description p")
           .innerText.trim();
-        const question = normalizeString(questionText);
+
+        const question = choice.isInput
+          ? normalizeString(questionText)
+          : questionText;
 
         const radioBoxes = questionBlock.querySelectorAll(".item-sheet");
+        const key = keys[question];
 
-        radioBoxes.forEach((radioBlock, idx) => {
-          let answer = radioBlock.querySelector(".desc").innerText;
+        if (key) {
+          radioBoxes.forEach((radioBlock, idx) => {
+            const answer = radioBlock.querySelector(".desc").innerText;
 
-          if (keys[question] === answer) {
-            radioBlock.querySelector("input").click();
-          }
-        });
+            if (key === answer) {
+              radioBlock.querySelector("input").click();
+            }
+          });
+        } else if (choice.hasRandom) {
+          handleRandom(radioBoxes);
+        }
       }
     }
   }
+}
+
+function handleRandom(radioBoxes) {
+  const randomIdx = generateRandomNum();
+  radioBoxes[randomIdx].querySelector("input").click();
 }
 
 main();

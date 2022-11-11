@@ -2,6 +2,7 @@ function main() {
   const QUERY_TYPE = {
     GGF_INCOMPLETE: ".geS5n",
     GGF_COMPLETE: ".OxAavc",
+    SDA_SHARE: "#sda-word-extract",
     MYALOHA_INCOMPLETE: "#confirmFinishModal",
   };
 
@@ -20,6 +21,12 @@ function main() {
   if (document.querySelector(QUERY_TYPE.MYALOHA_INCOMPLETE)) {
     sendMessage({
       type: "myaloha-incomplete",
+    });
+  }
+
+  if (document.querySelector(QUERY_TYPE.SDA_SHARE)) {
+    sendMessage({
+      type: "sda-copy",
     });
   }
 }

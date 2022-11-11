@@ -10,3 +10,8 @@ function normalizeString(string) {
   // Remove different whitespace (by character)
   return string.replace(/\s+/g, " ");
 }
+
+function generateRandomNum(length = 4) {
+  // Generate a random number from 0 to length - 1
+  return Math.floor(Math.random() * length);
+}
