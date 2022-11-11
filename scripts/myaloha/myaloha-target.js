@@ -10,9 +10,10 @@ async function main() {
       for (let index = 0; index < questions.length; index++) {
         const questionBlock = questions[index];
 
-        const question = questionBlock
+        const questionText = questionBlock
           .querySelector(".description p")
           .innerText.trim();
+        const question = normalizeString(questionText);
 
         const radioBoxes = questionBlock.querySelectorAll(".item-sheet");
 

@@ -5,3 +5,8 @@ function sendMessage(message) {
     });
   });
 }
+
+function normalizeString(string) {
+  // Remove different whitespace (by character)
+  return string.replace(/\s+/g, " ");
+}

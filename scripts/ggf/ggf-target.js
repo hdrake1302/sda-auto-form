@@ -23,7 +23,9 @@ async function main() {
       const multiElement = $(CLASS_TYPE.MULTI_ELEMENT);
       const textElement = $(CLASS_TYPE.TEXT_ELEMENT);
 
-      const questionValue = $(CLASS_TYPE.QUESTION_TEXT).innerText.trim();
+      const questionValue = normalizeString(
+        $(CLASS_TYPE.QUESTION_TEXT).innerText.trim()
+      );
 
       const key = keys[questionValue];
 
