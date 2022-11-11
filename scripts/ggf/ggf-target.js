@@ -51,8 +51,58 @@ async function main() {
           inputElement.dataset.initialValue = key;
           inputElement.setAttribute("badinput", false);
         }
+      } else if (choice.hasRandom) {
+        handleRandom(radioElement, multiElement);
       }
     });
+  }
+
+  function handleRandom(radioElement, multiElement) {
+    if (radioElement) {
+      const allRadios = radioElement.querySelectorAll('[aria-checked="false"]');
+      const randomIndex = generateInputIndex();
+
+      allRadios[randomIndex].click();
+    }
+
+    if (multiElement) {
+      const allMultis = multiElement.querySelectorAll('[aria-checked="false"]');
+      const randomIndexes = generateInputIndex((isMulti = true));
+
+      for (randomIndex of randomIndexes) {
+        allMultis[randomIndex].click();
+      }
+    }
+  }
+
+  function generateInputIndex(isMulti = false) {
+    // Generate random index for clicking purpose
+    if (isMulti) {
+      const randomIndexes = [];
+      const numOfAnswers = generateRandomNum();
+
+      let i = 0;
+      while (i <= numOfAnswers) {
+        const randomIndex = generateRandomNum();
+        if (randomIndexes.includes(randomIndex)) {
+          continue;
+        }
+
+        randomIndexes.push(randomIndex);
+        i++;
+      }
+
+      return randomIndexes;
+    }
+
+    // If radio then return randomIndex
+    const randomIndex = generateRandomNum();
+    return randomIndex;
+  }
+
+  function generateRandomNum() {
+    // Generate a random number from 0 to 3
+    return Math.floor(Math.random() * 4);
   }
 }
 

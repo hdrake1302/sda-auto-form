@@ -1,6 +1,6 @@
 async function main() {
   const { keys } = await chrome.storage.local.get("keys");
-
+  const { choice } = await chrome.storage.sync.get("choice");
   if (keys) {
     // My AloHa
     var questions = document.querySelectorAll(".quiz-list-wrap .content");
