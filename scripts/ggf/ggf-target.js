@@ -2,6 +2,7 @@ async function main() {
   const { keys } = await chrome.storage.local.get("keys");
   const { choice } = await chrome.storage.sync.get("choice");
 
+  console.log(choice);
   const CLASS_TYPE = {
     QUESTION_ELEMENT: ".geS5n",
     QUESTION_TEXT: ".M7eMe",
@@ -25,7 +26,7 @@ async function main() {
 
       const questionText = $(CLASS_TYPE.QUESTION_TEXT).innerText.trim();
       // input key may contains difference white space so we have to normalize it
-      const questionValue = choice.isInput
+      const questionValue = choice.shouldNormalized
         ? normalizeString(questionText)
         : questionText;
 
@@ -100,11 +101,6 @@ async function main() {
     // If radio then return randomIndex
     const randomIndex = generateRandomNum(length);
     return randomIndex;
-  }
-
-  function generateRandomNum(length = 4) {
-    // Generate a random number from 0 to 3
-    return Math.floor(Math.random() * length);
   }
 }
 

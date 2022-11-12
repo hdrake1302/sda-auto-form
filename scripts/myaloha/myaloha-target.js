@@ -15,7 +15,7 @@ async function main() {
           .querySelector(".description p")
           .innerText.trim();
 
-        const question = choice.isInput
+        const question = choice.shouldNormalized
           ? normalizeString(questionText)
           : questionText;
 

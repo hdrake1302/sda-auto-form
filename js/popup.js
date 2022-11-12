@@ -16,7 +16,7 @@ async function main() {
       choice: {
         hasIgnoreWrong: false,
         hasRandom: false,
-        isInput: false,
+        shouldNormalized: false,
       },
     });
   } else {
@@ -68,16 +68,19 @@ async function main() {
 
     if (inputKey.classList.contains("modal-header__input--hidden")) {
       const inputValue = inputKey.value;
-      const inputKeys = inputValue ? JSON.parse(inputValue) : null;
-
-      let keys = {};
-      if (inputKeys) {
-        // Normalize string with different white spaces
-        keys = normalizeKeys(inputKeys);
-        choice.isInput = true;
-        await chrome.storage.sync.set({ choice });
+      try {
+        const inputKeys = inputValue ? JSON.parse(inputValue) : null;
+        if (inputKeys) {
+          // Normalize string with different white spaces
+          const keys = normalizeKeys(inputKeys);
+          choice.shouldNormalized = true;
+          await chrome.storage.sync.set({ choice });
+          await chrome.storage.local.set({ keys });
+        }
+      } catch (error) {
+        console.log("Invalid Keycode!");
+        await chrome.storage.local.set({ keys: {} });
       }
-      await chrome.storage.local.set({ keys });
     }
   });
 
@@ -145,8 +148,11 @@ async function main() {
         });
       }
 
-      // Send signal to background to handle COPY keys
+      // Send signal to background to handle COPY keys from sda website
       if (request.type === "sda-copy") {
+        choice.shouldNormalized = true;
+        await chrome.storage.sync.set({ choice });
+
         sendMessage({
           type: "bg-sda-copy",
           data: {
@@ -155,13 +161,20 @@ async function main() {
         });
       }
 
-      // Finish handle copy Google Form
+      // Save the keys from any supported source
       if (request.type === "save-keys") {
-        const keys = request.data.keys;
+        let keys = request.data.keys;
+        const type = request.data.type;
 
-        choice.isInput = false;
+        // If the type is normalize-keys then we will normalize the keys
+        if (type !== "normalize-keys") {
+          choice.shouldNormalized = false;
+        } else {
+          choice.shouldNormalized = true;
+          keys = normalizeKeys(keys);
+        }
+
         await chrome.storage.sync.set({ choice });
-        // Save the key
         await chrome.storage.local.set({ keys });
       }
 

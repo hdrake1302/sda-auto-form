@@ -14,15 +14,17 @@ Chúc bạn sử dụng vui vẻ nha <3
 
 Link test form: https://forms.gle/TBt4iy1uq5vJhtmZA
 
-Tính năng SDA - Auto Form 3.1:
-- Copy form đang làm
-- Copy form kết quả (có thể bỏ qua câu sai)
+Tính năng SDA - Auto Form 3.3:
+- Copy form đang làm (GGForm + MyAloha)
+- Copy form kết quả (có thể bỏ qua câu sai) (GGForm)
+- Copy với tùy chọn bỏ qua câu sai ignore wrong (nếu có đáp án đúng sẽ tự chọn còn nếu không sẽ bỏ qua câu đó) (GGForm)
 
-- Nhập vào key code được share vào SDA-Auto Form
-- Paste đáp án từ keys đã được copy
+- Nhập vào key code được share vào SDA-Auto Form (GGForm + MyAloha)
+- Paste đáp án từ keys đã được copy (GGForm + MyAloha)
+- Paste đáp án ngẫu nhiên với tùy chọn random (Câu nào không có trong key sẽ được tool random câu trả lời) (GGForm + MyAloha)
 
-- Share đáp án với người khác 
-bằng text hoặc key code 
+- Share đáp án với người khác bằng text hoặc key code (SDA - Share)
+- Copy key từ text được tạo bởi tool (SDA - Share)
 
 
 Example of Key Code: 
