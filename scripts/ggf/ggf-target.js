@@ -34,12 +34,12 @@ async function main() {
 
       if (key) {
         if (radioElement) {
-          $(`[data-value="${key}"]`).click();
+          $(`[data-value="${key}"]`)?.click();
         }
 
         if (multiElement) {
           for (k of key) {
-            $(`[data-answer-value="${k}"]`).click();
+            $(`[data-answer-value="${k}"]`)?.click();
           }
         }
 
