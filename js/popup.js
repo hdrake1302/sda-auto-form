@@ -161,6 +161,36 @@ async function main() {
         });
       }
 
+      // Send signal to background to handle COPY incomplete Google Form
+      if (request.type === "tdtu-elearning-incomplete") {
+        sendMessage({
+          type: "bg-tdtu-elearning-incomplete",
+          data: {
+            currentTab,
+          },
+        });
+      }
+
+      // Send signal to background to handle COPY complete Google Form
+      if (request.type === "tdtu-elearning-complete") {
+        sendMessage({
+          type: "bg-tdtu-elearning-complete",
+          data: {
+            currentTab,
+          },
+        });
+      }
+
+      // Send signal to background to handle PASTE target Google Form
+      if (request.type === "tdtu-elearning-target") {
+        sendMessage({
+          type: "bg-tdtu-elearning-target",
+          data: {
+            currentTab,
+          },
+        });
+      }
+
       // Save the keys from any supported source
       if (request.type === "save-keys") {
         let keys = request.data.keys;
