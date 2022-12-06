@@ -4,6 +4,7 @@ async function main() {
   const pasteForm = document.getElementById("pasteForm");
   const ignoreChoice = document.getElementById("ignore");
   const randomChoice = document.getElementById("random");
+  const appendChoice = document.getElementById("append");
 
   const keyElement = document.querySelector(".modal-header__key");
 
@@ -16,12 +17,14 @@ async function main() {
       choice: {
         hasIgnoreWrong: false,
         hasRandom: false,
+        hasAppend: false,
         shouldNormalized: false,
       },
     });
   } else {
     ignoreChoice.checked = choice.hasIgnoreWrong;
     randomChoice.checked = choice.hasRandom;
+    appendChoice.checked = choice.hasAppend;
   }
 
   ignoreChoice.addEventListener("change", async () => {
@@ -31,6 +34,11 @@ async function main() {
 
   randomChoice.addEventListener("change", async () => {
     choice.hasRandom = randomChoice.checked;
+    chrome.storage.sync.set({ choice });
+  });
+
+  appendChoice.addEventListener("change", async () => {
+    choice.hasAppend = appendChoice.checked;
     chrome.storage.sync.set({ choice });
   });
 
@@ -155,6 +163,36 @@ async function main() {
 
         sendMessage({
           type: "bg-sda-copy",
+          data: {
+            currentTab,
+          },
+        });
+      }
+
+      // Send signal to background to handle COPY incomplete Google Form
+      if (request.type === "tdtu-elearning-incomplete") {
+        sendMessage({
+          type: "bg-tdtu-elearning-incomplete",
+          data: {
+            currentTab,
+          },
+        });
+      }
+
+      // Send signal to background to handle COPY complete Google Form
+      if (request.type === "tdtu-elearning-complete") {
+        sendMessage({
+          type: "bg-tdtu-elearning-complete",
+          data: {
+            currentTab,
+          },
+        });
+      }
+
+      // Send signal to background to handle PASTE target Google Form
+      if (request.type === "tdtu-elearning-target") {
+        sendMessage({
+          type: "bg-tdtu-elearning-target",
           data: {
             currentTab,
           },

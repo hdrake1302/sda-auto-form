@@ -72,6 +72,16 @@ async function main() {
         });
       }
 
+      // Paste to the target
+      if (request.type === "bg-myaloha-target") {
+        const contentScriptPath = "scripts/myaloha/myaloha-target.js";
+
+        chrome.scripting.executeScript({
+          target: { tabId: currentTab.id },
+          files: [contentScriptPath],
+        });
+      }
+
       // Paste to the sda target
       if (request.type === "bg-sda-target") {
         const contentScriptPath = "scripts/sda/sda-target.js";
@@ -93,8 +103,31 @@ async function main() {
       }
 
       // Paste to the target
-      if (request.type === "bg-myaloha-target") {
-        const contentScriptPath = "scripts/myaloha/myaloha-target.js";
+      if (request.type === "bg-tdtu-elearning-incomplete") {
+        const contentScriptPath =
+          "scripts/tdtu-elearning/tdtu-elearning-incomplete.js";
+
+        chrome.scripting.executeScript({
+          target: { tabId: currentTab.id },
+          files: [contentScriptPath],
+        });
+      }
+
+      // Paste to the target
+      if (request.type === "bg-tdtu-elearning-complete") {
+        const contentScriptPath =
+          "scripts/tdtu-elearning/tdtu-elearning-complete.js";
+
+        chrome.scripting.executeScript({
+          target: { tabId: currentTab.id },
+          files: [contentScriptPath],
+        });
+      }
+
+      // Paste to the target
+      if (request.type === "bg-tdtu-elearning-target") {
+        const contentScriptPath =
+          "scripts/tdtu-elearning/tdtu-elearning-target.js";
 
         chrome.scripting.executeScript({
           target: { tabId: currentTab.id },
