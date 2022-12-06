@@ -4,6 +4,8 @@ function main() {
     GGF_COMPLETE: ".OxAavc",
     SDA_SHARE: "#sda-word-extract",
     MYALOHA_INCOMPLETE: "#confirmFinishModal",
+    ELEARNING_INCOMPLETE: ".multichoice.deferredfeedback",
+    ELEARNING_COMPLETE: ".questionflagsaveform",
   };
 
   if (document.querySelector(QUERY_TYPE.GGF_INCOMPLETE)) {
@@ -27,6 +29,19 @@ function main() {
   if (document.querySelector(QUERY_TYPE.SDA_SHARE)) {
     sendMessage({
       type: "sda-copy",
+    });
+  }
+
+  // TDTU ELEARNING
+  if (document.querySelector(QUERY_TYPE.ELEARNING_INCOMPLETE)) {
+    sendMessage({
+      type: "tdtu-elearning-incomplete",
+    });
+  }
+
+  if (document.querySelector(QUERY_TYPE.ELEARNING_COMPLETE)) {
+    sendMessage({
+      type: "tdtu-elearning-complete",
     });
   }
 }

@@ -2,6 +2,7 @@ async function main() {
   // My AloHa
   var questions = document.querySelectorAll(".quiz-list-wrap .content");
   const keys = {};
+  const { choice } = await chrome.storage.sync.get("choice");
 
   if (questions.length !== 0) {
     // Loop through the questions
@@ -23,12 +24,25 @@ async function main() {
     }
   }
 
-  sendMessage({
-    type: "save-keys",
-    data: {
-      keys,
-    },
-  });
+  if (choice.hasAppend) {
+    let data = await chrome.storage.local.get("keys");
+    let old_keys = data.keys;
+
+    // Append keys cũ vào keys mới
+    sendMessage({
+      type: "save-keys",
+      data: {
+        keys: Object.assign({}, keys, old_keys),
+      },
+    });
+  } else {
+    sendMessage({
+      type: "save-keys",
+      data: {
+        keys,
+      },
+    });
+  }
 }
 
 main();

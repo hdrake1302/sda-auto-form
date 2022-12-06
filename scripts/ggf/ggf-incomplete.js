@@ -1,5 +1,6 @@
 async function main() {
   const keys = {};
+  const { choice } = await chrome.storage.sync.get("choice");
 
   const CLASS_TYPE = {
     QUESTION_ELEMENT: ".geS5n",
@@ -65,12 +66,25 @@ async function main() {
     return textValue;
   }
 
-  sendMessage({
-    type: "save-keys",
-    data: {
-      keys,
-    },
-  });
+  if (choice.hasAppend) {
+    let data = await chrome.storage.local.get("keys");
+    let old_keys = data.keys;
+
+    // Append keys cũ vào keys mới
+    sendMessage({
+      type: "save-keys",
+      data: {
+        keys: Object.assign({}, keys, old_keys),
+      },
+    });
+  } else {
+    sendMessage({
+      type: "save-keys",
+      data: {
+        keys,
+      },
+    });
+  }
 }
 
 main();
