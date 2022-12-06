@@ -1,26 +1,31 @@
 async function main() {
   const questions = document.querySelectorAll(".multichoice");
 
-  const keys = {};
+  const { keys } = await chrome.storage.local.get("keys");
+  const { choice } = await chrome.storage.sync.get("choice");
+
   for (const questionEle of questions) {
-    const question = questionEle.querySelector(".qtext").innerText.trim();
-    const input = questionEle.querySelector('[checked="checked"]');
+    const question = questionEle?.querySelector(".qtext").innerText.trim();
+    const answerElements = questionEle?.querySelectorAll(".answer div");
 
-    const answerEle = input.closest("div");
+    const key = keys[question];
+    if (key) {
+      for (const answerEle of answerElements) {
+        const answer = answerEle.querySelector("label p").innerText.trim();
 
-    if (question && answerEle) {
-      const answer = answerEle.querySelector("label").innerText.trim();
-
-      keys[question] = answer.slice(3);
+        if (key === answer) {
+          answerEle.querySelector("input").click();
+        }
+      }
+    } else if (choice.hasRandom) {
+      handleRandom(answerElements);
     }
   }
+}
 
-  sendMessage({
-    type: "save-keys",
-    data: {
-      keys,
-    },
-  });
+function handleRandom(radioBoxes) {
+  const randomIdx = generateRandomNum();
+  radioBoxes[randomIdx].querySelector("input").click();
 }
 
 main();
