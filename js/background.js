@@ -1,8 +1,10 @@
 async function main() {
-  chrome.runtime.onInstalled.addListener(() => {
-    chrome.tabs.create({
-      url: "https://youtu.be/VJ5C2IVfhFM",
-    });
+  chrome.runtime.onInstalled.addListener((details) => {
+    if (details.reason === chrome.runtime.OnInstalledReason.INSTALL) {
+      chrome.tabs.create({
+        url: "https://youtu.be/VJ5C2IVfhFM",
+      });
+    }
   });
 
   chrome.action.onClicked.addListener((tab) => {
