@@ -8,6 +8,10 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
+.color-red {
+  color: #f00 !important;
+}
+
 .modal {
   position: relative;
   border-radius: 10px;
@@ -80,6 +84,33 @@ body {
   right: 0;
   color: #fff;
   background-color: #4e54c8;
+}
+
+.confirm-random {
+  display: none;
+  padding: 12px;
+  border: 2px solid #4e54c8;
+}
+
+.confirm-random__header {
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 36px;
+}
+
+.confirm-random__header span {
+  color: #f00;
+}
+
+.confirm-random__body {
+  float: right;
+}
+.modal-confirm .confirm-random {
+  display: block;
+}
+
+.modal-confirm > button {
+  display: none;
 }
 
 .socials {

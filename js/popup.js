@@ -10,6 +10,27 @@ async function main() {
   const copyForm = document.getElementById("copyForm");
   const pasteForm = document.getElementById("pasteForm");
 
+  const confirmYes = document.getElementById("confirm-yes");
+  const confirmNo = document.getElementById("confirm-no");
+
+  confirmYes.addEventListener("click", async () => {
+    const currentTab = await getCurrentTab();
+
+    // Get the choice from user and send it
+    sendMessage({
+      type: "bg-handle-paste",
+      data: {
+        currentTab,
+      },
+    });
+
+    hideConfirmBox();
+  });
+
+  confirmNo.addEventListener("click", () => {
+    hideConfirmBox();
+  });
+
   const selectBox = document.getElementById("choices");
 
   const keyElement = document.querySelector(".modal-header__key");
@@ -47,15 +68,20 @@ async function main() {
   });
 
   pasteForm.addEventListener("click", async () => {
-    const currentTab = await getCurrentTab();
+    if (choice.selectValue === CHOICE_VALUE.RANDOM) {
+      showConfirmBox();
+    } else {
+      // Reset confirm random
+      const currentTab = await getCurrentTab();
 
-    // Get the choice from user and send it
-    sendMessage({
-      type: "bg-handle-paste",
-      data: {
-        currentTab,
-      },
-    });
+      // Get the choice from user and send it
+      sendMessage({
+        type: "bg-handle-paste",
+        data: {
+          currentTab,
+        },
+      });
+    }
   });
 
   // Get keys from user input
@@ -77,7 +103,7 @@ async function main() {
         await chrome.storage.sync.set({ choice });
         await chrome.storage.local.set({ keys });
       } catch (error) {
-        console.log("Invalid Keycode!");
+        console.error("Invalid Keycode!");
         await chrome.storage.local.set({ keys: {} });
       }
     }
@@ -211,6 +237,20 @@ async function main() {
       return true;
     }
   );
+}
+
+function hideConfirmBox() {
+  const modalBody = document.querySelector(".modal-body");
+  modalBody.classList.remove("modal-confirm");
+}
+
+async function showConfirmBox() {
+  const { keys } = await chrome.storage.local.get("keys");
+  const modalBody = document.querySelector(".modal-body");
+
+  const keyQuantity = modalBody.querySelector("#key-quantity");
+  keyQuantity.innerText = Object.keys(keys)?.length || "0";
+  modalBody.classList.add("modal-confirm");
 }
 
 function normalizeString(string) {

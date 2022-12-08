@@ -26,6 +26,10 @@ button {
   transition: 0.2s all ease-in-out;
 }
 
+.modal-btn.bg-red {
+  background-color: #f00;
+}
+
 .select {
   padding: 8px;
   font-weight: 700;
