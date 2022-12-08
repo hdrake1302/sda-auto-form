@@ -26,6 +26,11 @@ button {
   transition: 0.2s all ease-in-out;
 }
 
+.select {
+  padding: 8px;
+  font-weight: 700;
+  width: 200px;
+}
 .modal-btn:hover {
   transform: translateY(-5px);
 }

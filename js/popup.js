@@ -2,9 +2,8 @@ async function main() {
   // Initialize button with user's preferred color
   const copyForm = document.getElementById("copyForm");
   const pasteForm = document.getElementById("pasteForm");
-  const ignoreChoice = document.getElementById("ignore");
-  const randomChoice = document.getElementById("random");
-  const appendChoice = document.getElementById("append");
+
+  const selectBox = document.getElementById("choices");
 
   const keyElement = document.querySelector(".modal-header__key");
 
@@ -22,23 +21,30 @@ async function main() {
       },
     });
   } else {
-    ignoreChoice.checked = choice.hasIgnoreWrong;
-    randomChoice.checked = choice.hasRandom;
-    appendChoice.checked = choice.hasAppend;
+    selectBox.value = choice.selectValue || "";
   }
 
-  ignoreChoice.addEventListener("change", async () => {
-    choice.hasIgnoreWrong = ignoreChoice.checked;
-    chrome.storage.sync.set({ choice });
-  });
-
-  randomChoice.addEventListener("change", async () => {
-    choice.hasRandom = randomChoice.checked;
-    chrome.storage.sync.set({ choice });
-  });
-
-  appendChoice.addEventListener("change", async () => {
-    choice.hasAppend = appendChoice.checked;
+  selectBox.addEventListener("change", async () => {
+    choice.selectValue = selectBox.value;
+    switch (selectBox.value) {
+      case "ignore":
+        choice.hasIgnoreWrong = true;
+        choice.hasAppend = false;
+        choice.hasRandom = false;
+        break;
+      case "random":
+        choice.hasIgnoreWrong = false;
+        choice.hasAppend = false;
+        choice.hasRandom = true;
+        break;
+      case "append":
+        choice.hasIgnoreWrong = false;
+        choice.hasAppend = true;
+        choice.hasRandom = false;
+        break;
+      default:
+        break;
+    }
     chrome.storage.sync.set({ choice });
   });
 
@@ -76,15 +82,15 @@ async function main() {
 
     if (inputKey.classList.contains("modal-header__input--hidden")) {
       const inputValue = inputKey.value;
+      console.log(inputValue);
       try {
-        const inputKeys = inputValue ? JSON.parse(inputValue) : null;
-        if (inputKeys) {
-          // Normalize string with different white spaces
-          const keys = normalizeKeys(inputKeys);
-          choice.shouldNormalized = true;
-          await chrome.storage.sync.set({ choice });
-          await chrome.storage.local.set({ keys });
-        }
+        const inputKeys = inputValue ? JSON.parse(inputValue) : {};
+
+        // Normalize string with different white spaces
+        const keys = normalizeKeys(inputKeys);
+        choice.shouldNormalized = true;
+        await chrome.storage.sync.set({ choice });
+        await chrome.storage.local.set({ keys });
       } catch (error) {
         console.log("Invalid Keycode!");
         await chrome.storage.local.set({ keys: {} });

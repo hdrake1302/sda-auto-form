@@ -3,6 +3,7 @@
   <head>
     <!-- Made by Deetek for Share đáp án TDTU group in FB -->
 
+    <meta charset="UTF-8" />
     <!-- Fonts -->
     <link rel="stylesheet" href="./css/fonts.css" />
     <link rel="stylesheet" href="./css/popup.css" />
@@ -43,18 +44,15 @@
       </main>
       <footer class="modal-footer">
         <div class="choice-wrapper">
-          <input type="checkbox" name="ignore" id="ignore" />
-          <label for="ignore">Ignore</label>
-        </div>
+          <select class="select" name="choices" id="choices">
+            <option value="" disabled="disabled" selected>
+              Chọn chức năng phụ
+            </option>
 
-        <div class="choice-wrapper">
-          <input type="checkbox" name="random" id="random" />
-          <label for="random">Random</label>
-        </div>
-
-        <div class="choice-wrapper">
-          <input type="checkbox" name="append" id="append" />
-          <label for="random">a+</label>
+            <option value="ignore">Ignore (Bỏ qua câu sai)</option>
+            <option value="random">Random (Ngẫu nhiên câu chưa có)</option>
+            <option value="append">Append+ (Copy nối tiếp)</option>
+          </select>
         </div>
 
         <div class="socials">
