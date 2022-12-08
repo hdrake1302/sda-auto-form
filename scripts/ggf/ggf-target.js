@@ -53,7 +53,7 @@ async function main() {
           inputElement.dataset.initialValue = key;
           inputElement.setAttribute("badinput", false);
         }
-      } else if (choice.hasRandom) {
+      } else if (choice.selectValue === CHOICE_VALUE.RANDOM) {
         handleRandom(radioElement, multiElement);
       }
     });

@@ -1,4 +1,11 @@
 async function main() {
+  const CHOICE_VALUE = {
+    EMPTY: "",
+    IGNORE: "ignore",
+    RANDOM: "random",
+    APPEND: "append",
+  };
+
   // Initialize button with user's preferred color
   const copyForm = document.getElementById("copyForm");
   const pasteForm = document.getElementById("pasteForm");
@@ -14,37 +21,16 @@ async function main() {
 
     chrome.storage.sync.set({
       choice: {
-        hasIgnoreWrong: false,
-        hasRandom: false,
-        hasAppend: false,
+        selectValue: CHOICE_VALUE.EMPTY,
         shouldNormalized: false,
       },
     });
   } else {
-    selectBox.value = choice.selectValue || "";
+    selectBox.value = choice.selectValue || CHOICE_VALUE.EMPTY;
   }
 
   selectBox.addEventListener("change", async () => {
     choice.selectValue = selectBox.value;
-    switch (selectBox.value) {
-      case "ignore":
-        choice.hasIgnoreWrong = true;
-        choice.hasAppend = false;
-        choice.hasRandom = false;
-        break;
-      case "random":
-        choice.hasIgnoreWrong = false;
-        choice.hasAppend = false;
-        choice.hasRandom = true;
-        break;
-      case "append":
-        choice.hasIgnoreWrong = false;
-        choice.hasAppend = true;
-        choice.hasRandom = false;
-        break;
-      default:
-        break;
-    }
     chrome.storage.sync.set({ choice });
   });
 
@@ -82,7 +68,6 @@ async function main() {
 
     if (inputKey.classList.contains("modal-header__input--hidden")) {
       const inputValue = inputKey.value;
-      console.log(inputValue);
       try {
         const inputKeys = inputValue ? JSON.parse(inputValue) : {};
 

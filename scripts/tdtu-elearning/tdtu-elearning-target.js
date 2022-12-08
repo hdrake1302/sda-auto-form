@@ -17,7 +17,7 @@ async function main() {
           answerEle.querySelector("input").click();
         }
       }
-    } else if (choice.hasRandom) {
+    } else if (choice.selectValue === CHOICE_VALUE.RANDOM) {
       handleRandom(answerElements);
     }
   }

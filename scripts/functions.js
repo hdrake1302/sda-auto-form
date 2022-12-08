@@ -1,3 +1,10 @@
+const CHOICE_VALUE = {
+  EMPTY: "",
+  IGNORE: "ignore",
+  RANDOM: "random",
+  APPEND: "append",
+};
+
 function sendMessage(message) {
   return new Promise((resolve, reject) => {
     chrome.runtime.sendMessage(message, (response) => {

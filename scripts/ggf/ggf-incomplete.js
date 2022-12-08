@@ -66,7 +66,7 @@ async function main() {
     return textValue;
   }
 
-  if (choice.hasAppend) {
+  if (choice.selectValue === CHOICE_VALUE.APPEND) {
     let data = await chrome.storage.local.get("keys");
     let old_keys = data.keys;
 

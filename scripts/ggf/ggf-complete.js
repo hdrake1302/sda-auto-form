@@ -3,8 +3,6 @@ async function main() {
 
   const { choice } = await chrome.storage.sync.get("choice");
 
-  const hasIgnoreWrong = choice.hasIgnoreWrong;
-
   const CLASS_TYPE = {
     QUESTION_ELEMENT: ".Qr7Oae",
     QUESTION_TEXT: ".M7eMe",
@@ -43,7 +41,7 @@ async function main() {
       keys[questionValue] = textValue;
     }
 
-    if (hasIgnoreWrong) {
+    if (choice.selectValue === CHOICE_VALUE.IGNORE) {
       handleCopyIgnore(questionElement, questionValue);
     }
   });

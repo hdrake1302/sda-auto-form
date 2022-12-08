@@ -30,7 +30,7 @@ async function main() {
               radioBlock.querySelector("input").click();
             }
           });
-        } else if (choice.hasRandom) {
+        } else if (choice.selectValue === CHOICE_VALUE.RANDOM) {
           handleRandom(radioBoxes);
         }
       }
