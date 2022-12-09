@@ -35,17 +35,19 @@ async function main() {
   const keyElement = document.querySelector(".modal-header__key");
   const inputKey = document.getElementById("inputKey");
 
-  const dataChoice = await chrome.storage.sync.get("choice");
-  const choice = {};
+  var { choice } = await chrome.storage.sync.get("choice");
 
-  if (!dataChoice) {
-    Object.assign(choice, {
+  if (!choice) {
+    // Init choice
+    choice = {
       selectValue: CHOICE_VALUE.EMPTY,
       shouldNormalized: false,
-    });
+    };
+
+    await chrome.storage.sync.set({ choice });
   }
 
-  selectBox.value = choice.selectValue || CHOICE_VALUE.EMPTY;
+  selectBox.value = choice?.selectValue || CHOICE_VALUE.EMPTY;
 
   selectBox.addEventListener("change", async () => {
     choice.selectValue = selectBox.value;
