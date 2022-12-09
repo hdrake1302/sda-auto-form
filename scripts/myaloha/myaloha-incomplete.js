@@ -11,8 +11,11 @@ async function main() {
 
       const question = questionBlock
         .querySelector(".description p")
-        .innerText.trim();
+        ?.innerText?.trim();
 
+      if (!question) {
+        continue;
+      }
       // inputted answer
       const checkedInput = questionBlock.querySelector("input:checked");
       if (checkedInput) {

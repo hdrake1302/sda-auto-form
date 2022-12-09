@@ -17,10 +17,14 @@ async function main() {
     CLASS_TYPE.QUESTION_ELEMENT
   );
 
-  questionElements.forEach((questionElement, idx) => {
+  for (const questionElement of questionElements) {
     const $ = questionElement.querySelector.bind(questionElement);
 
-    const questionValue = $(CLASS_TYPE.QUESTION_TEXT).innerText.trim();
+    const questionValue = $(CLASS_TYPE.QUESTION_TEXT)?.innerText?.trim();
+
+    if (!questionValue) {
+      continue;
+    }
 
     const radioElement = $(CLASS_TYPE.RADIO_ELEMENT);
     const multiElement = $(CLASS_TYPE.MULTI_ELEMENT);
@@ -44,7 +48,7 @@ async function main() {
     if (choice.selectValue === CHOICE_VALUE.IGNORE) {
       handleCopyIgnore(questionElement, questionValue);
     }
-  });
+  }
 
   function getRadioValue(questionElement) {
     const checkedElement = questionElement.querySelector(

@@ -16,14 +16,18 @@ async function main() {
       CLASS_TYPE.QUESTION_ELEMENT
     );
 
-    questionElements.forEach((questionElement, idx) => {
+    for (const questionElement of questionElements) {
       const $ = questionElement.querySelector.bind(questionElement);
 
       const radioElement = $(CLASS_TYPE.RADIO_ELEMENT);
       const multiElement = $(CLASS_TYPE.MULTI_ELEMENT);
       const textElement = $(CLASS_TYPE.TEXT_ELEMENT);
 
-      const questionText = $(CLASS_TYPE.QUESTION_TEXT).innerText.trim();
+      const questionText = $(CLASS_TYPE.QUESTION_TEXT)?.innerText?.trim();
+
+      if (!questionText) {
+        continue;
+      }
       // input key may contains difference white space so we have to normalize it
       const questionValue = choice.shouldNormalized
         ? normalizeString(questionText)
@@ -56,7 +60,7 @@ async function main() {
       } else if (choice.selectValue === CHOICE_VALUE.RANDOM) {
         handleRandom(radioElement, multiElement);
       }
-    });
+    }
   }
 
   function handleRandom(radioElement, multiElement) {

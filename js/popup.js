@@ -5,7 +5,6 @@ async function main() {
     RANDOM: "random",
     APPEND: "append",
   };
-
   // Initialize button with user's preferred color
   const copyForm = document.getElementById("copyForm");
   const pasteForm = document.getElementById("pasteForm");
@@ -34,6 +33,7 @@ async function main() {
   const selectBox = document.getElementById("choices");
 
   const keyElement = document.querySelector(".modal-header__key");
+  const inputKey = document.getElementById("inputKey");
 
   const { choice } = await chrome.storage.sync.get("choice");
 
@@ -86,7 +86,6 @@ async function main() {
 
   // Get keys from user input
   keyElement.addEventListener("click", async () => {
-    const inputKey = document.querySelector(".modal-header__input");
     const title = document.querySelector(".modal-header__title");
 
     title.classList.toggle("modal-header__title--hidden");
@@ -229,6 +228,7 @@ async function main() {
           keys = normalizeKeys(keys);
         }
 
+        inputKey.value = JSON.stringify(keys);
         await chrome.storage.sync.set({ choice });
         await chrome.storage.local.set({ keys });
       }

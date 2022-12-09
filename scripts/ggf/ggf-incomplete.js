@@ -13,14 +13,19 @@ async function main() {
   const questionElements = document.querySelectorAll(
     CLASS_TYPE.QUESTION_ELEMENT
   );
-  questionElements.forEach((questionElement, idx) => {
+
+  for (const questionElement of questionElements) {
     const $ = questionElement.querySelector.bind(questionElement);
 
     const radioElement = $(CLASS_TYPE.RADIO_ELEMENT);
     const multiElement = $(CLASS_TYPE.MULTI_ELEMENT);
     const textElement = $(CLASS_TYPE.TEXT_ELEMENT);
 
-    const questionValue = $(CLASS_TYPE.QUESTION_TEXT).innerText.trim();
+    const questionValue = $(CLASS_TYPE.QUESTION_TEXT)?.innerText?.trim();
+
+    if (!questionValue) {
+      continue;
+    }
 
     if (radioElement) {
       const radioValue = getRadioValue(radioElement);
@@ -36,7 +41,7 @@ async function main() {
       const textValue = getTextValue(textElement);
       if (textValue) keys[questionValue] = textValue;
     }
-  });
+  }
 
   function getRadioValue(radioElement) {
     const checkedElement = radioElement.querySelector('[aria-checked="true"]');

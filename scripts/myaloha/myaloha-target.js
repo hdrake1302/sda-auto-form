@@ -13,7 +13,11 @@ async function main() {
 
         const questionText = questionBlock
           .querySelector(".description p")
-          .innerText.trim();
+          ?.innerText?.trim();
+
+        if (!questionText) {
+          continue;
+        }
 
         const question = choice.shouldNormalized
           ? normalizeString(questionText)

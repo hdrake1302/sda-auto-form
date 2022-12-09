@@ -5,7 +5,7 @@ async function main() {
   const { choice } = await chrome.storage.sync.get("choice");
 
   for (const questionEle of questions) {
-    const question = questionEle?.querySelector(".qtext").innerText.trim();
+    const question = questionEle?.querySelector(".qtext")?.innerText?.trim();
     const answerElements = questionEle?.querySelectorAll(".answer div");
 
     const key = keys[question];

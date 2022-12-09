@@ -5,7 +5,7 @@ async function main() {
   const keys = {};
 
   for (const questionEle of questions) {
-    const question = questionEle?.querySelector(".qtext").innerText.trim();
+    const question = questionEle?.querySelector(".qtext")?.innerText?.trim();
     const answers_element = questionEle?.querySelector(".answer");
     const checked_input = answers_element?.querySelector("input:checked");
 

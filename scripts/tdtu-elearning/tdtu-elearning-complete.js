@@ -3,7 +3,7 @@ async function main() {
 
   const keys = {};
   for (const questionEle of questions) {
-    const question = questionEle.querySelector(".qtext").innerText.trim();
+    const question = questionEle.querySelector(".qtext")?.innerText?.trim();
     const input = questionEle.querySelector('[checked="checked"]');
 
     const answerEle = input.closest("div");
