@@ -32,6 +32,7 @@ async function main() {
 
     if (radioElement) {
       const radioValue = getRadioValue(questionElement);
+
       keys[questionValue] = radioValue;
     }
 
@@ -54,9 +55,10 @@ async function main() {
     const checkedElement = questionElement.querySelector(
       '[aria-checked="true"]'
     );
-    const radioValue = checkedElement.dataset.value;
 
-    return radioValue.trim();
+    const radioValue = checkedElement?.dataset?.value;
+
+    return radioValue?.trim();
   }
 
   function getMultiValues(questionElement) {
@@ -68,7 +70,7 @@ async function main() {
     multiElements.forEach((currElement) => {
       const checkedElement = currElement.querySelector('[aria-checked="true"]');
       if (checkedElement) {
-        multiValues.push(currElement.innerText.trim());
+        multiValues.push(currElement?.innerText?.trim());
       }
     });
 
@@ -76,7 +78,7 @@ async function main() {
   }
 
   function getTextValue(textElement) {
-    return textElement.innerText.trim();
+    return textElement?.innerText?.trim();
   }
 
   function handleCopyIgnore(questionElement, questionValue) {
