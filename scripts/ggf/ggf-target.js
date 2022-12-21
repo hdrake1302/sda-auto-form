@@ -28,6 +28,7 @@ async function main() {
       if (!questionText) {
         continue;
       }
+
       // input key may contains difference white space so we have to normalize it
       const questionValue = choice.shouldNormalized
         ? normalizeString(questionText)
@@ -37,12 +38,12 @@ async function main() {
 
       if (key) {
         if (radioElement) {
-          $(`[data-value="${key}"]`)?.click();
+          $(`[data-value='${key}']`)?.click();
         }
 
         if (multiElement) {
           for (k of key) {
-            $(`[data-answer-value="${k}"]`)?.click();
+            $(`[data-answer-value='${k}']`)?.click();
           }
         }
 
