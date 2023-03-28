@@ -39,8 +39,9 @@ function extractKeys(plainText) {
 
       if (answer.match("\n- ")) {
         // Multiple
+        console.log(answer);
         answer = answer.split("\n- ");
-        keys[question] = answer.splice(1).trim();
+        keys[question] = answer.splice(1);
       } else {
         // Radio & Text
         keys[question] = answer.trim();
