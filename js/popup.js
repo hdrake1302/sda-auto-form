@@ -48,7 +48,7 @@ async function main() {
     await chrome.storage.sync.set({ choice });
   }
 
-  if (Object.keys(keys).length > 0) {
+  if (keys && Object.keys(keys).length > 0) {
     // Có keys thì vẫn giữ trên
     inputKey.value = JSON.stringify(keys);
   }

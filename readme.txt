@@ -1,3 +1,5 @@
+Link to extension: chrome://extensions/
+
 Các trang web tool hỗ trợ:
 + Google Form (hỗ trợ đầy đủ)
 + My Aloha
