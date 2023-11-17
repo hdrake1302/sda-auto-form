@@ -39,6 +39,8 @@ function extractKeys(plainText) {
 
       if (answer.match("\n- ")) {
         // Multiple
+        console.log("multiple");
+
         answer = answer.split("\n- ");
         keys[question] = answer.splice(1).trim();
       } else {

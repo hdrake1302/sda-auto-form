@@ -11,12 +11,15 @@ async function main() {
     TEXT_ELEMENT: ".AgroKb",
   };
 
+  var count = 0 ;
   if (keys) {
     const questionElements = document.querySelectorAll(
       CLASS_TYPE.QUESTION_ELEMENT
     );
 
     for (const questionElement of questionElements) {
+      count += 1
+      
       const $ = questionElement.querySelector.bind(questionElement);
 
       const radioElement = $(CLASS_TYPE.RADIO_ELEMENT);
@@ -33,34 +36,48 @@ async function main() {
       const questionValue = choice.shouldNormalized
         ? normalizeString(questionText)
         : questionText;
-
+      
       const key = keys[questionValue];
-
-      if (key) {
-        if (radioElement) {
-          $(`[data-value='${key}']`)?.click();
-        }
-
-        if (multiElement) {
-          for (k of key) {
-            $(`[data-answer-value='${k}']`)?.click();
+      try {
+        if (key) {
+          if (radioElement) {
+            // Replace single quote to double quote
+            try {
+              $(`[data-value="${key}"]`)?.click();
+            } catch (error) {
+              $(`[data-value='${key}']`)?.click();
+            }
           }
+  
+          if (multiElement) {
+            for (k of key) {
+              try {
+                $(`[data-answer-value="${k}"]`)?.click();
+              } catch (error) {
+                $(`[data-answer-value='${k}']`)?.click();
+              }
+            }
+          }
+  
+          if (textElement) {
+            const inputElement = textElement.querySelector("input");
+            const inputWrap = inputElement.closest(".rFrNMe");
+  
+            // so that the placeholder will disappear
+            inputWrap.classList.add("CDELXb");
+  
+            inputElement.value = key;
+            inputElement.dataset.initialValue = key;
+            inputElement.setAttribute("badinput", false);
+          }
+        } else if (choice.selectValue === CHOICE_VALUE.RANDOM) {
+          handleRandom(radioElement, multiElement);
         }
-
-        if (textElement) {
-          const inputElement = textElement.querySelector("input");
-          const inputWrap = inputElement.closest(".rFrNMe");
-
-          // so that the placeholder will disappear
-          inputWrap.classList.add("CDELXb");
-
-          inputElement.value = key;
-          inputElement.dataset.initialValue = key;
-          inputElement.setAttribute("badinput", false);
-        }
-      } else if (choice.selectValue === CHOICE_VALUE.RANDOM) {
-        handleRandom(radioElement, multiElement);
+      } catch (error) {
+        console.log(`${questionValue} can't be paste as there was some error`);
+        console.log(error);
       }
+     
     }
   }
 
