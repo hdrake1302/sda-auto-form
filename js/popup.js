@@ -36,6 +36,7 @@ async function main() {
   const inputKey = document.getElementById("inputKey");
 
   var { choice } = await chrome.storage.sync.get("choice");
+  var { keys } = await chrome.storage.local.get("keys");
 
   if (!choice) {
     // Init choice
@@ -45,6 +46,11 @@ async function main() {
     };
 
     await chrome.storage.sync.set({ choice });
+  }
+
+  if (keys && Object.keys(keys).length > 0) {
+    // Có keys thì vẫn giữ trên
+    inputKey.value = JSON.stringify(keys);
   }
 
   selectBox.value = choice?.selectValue || CHOICE_VALUE.EMPTY;
