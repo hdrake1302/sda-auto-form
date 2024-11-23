@@ -1,7 +1,7 @@
 {
   "name": "SDA - Auto Form",
-  "description": "Using this extension helps you copy your answers from a completed Google Form and paste it into a different one in no time. Furthermore, you could easily extract the answers into key code and readable lines that you could share with others, or keep it for your personal purposes. Version 4.0.0 will support (Google Form, My Aloha, TDTU Elearning)",
-  "version": "4.0.6",
+  "description": "Using this extension helps you copy your answers from a completed Google Form and paste it into a different one in no time.",
+  "version": "4.0.7",
   "manifest_version": 3,
   "background": {
     "service_worker": "./js/background.js"

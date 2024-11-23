@@ -39,12 +39,6 @@ function extractKeys(plainText) {
 
       if (answer.match("\n- ")) {
         // Multiple
-<<<<<<< HEAD
-        console.log("multiple");
-
-=======
-        console.log(answer);
->>>>>>> 6ece1a6a91de054f75217c50e5192b151ceb1393
         answer = answer.split("\n- ");
         keys[question] = answer.splice(1);
       } else {

@@ -43,18 +43,18 @@ async function main() {
           if (radioElement) {
             // Replace single quote to double quote
             try {
-              $(`[data-value="${key}"]`)?.click();
+              $(`[data-value="${CSS.escape(key)}"]`)?.click();
             } catch (error) {
-              $(`[data-value='${key}']`)?.click();
+              $(`[data-value='${CSS.escape(key)}']`)?.click();
             }
           }
   
           if (multiElement) {
             for (k of key) {
               try {
-                $(`[data-answer-value="${k}"]`)?.click();
+                $(`[data-answer-value="${CSS.escape(k)}"]`)?.click();
               } catch (error) {
-                $(`[data-answer-value='${k}']`)?.click();
+                $(`[data-answer-value='${CSS.escape(k)}']`)?.click();
               }
             }
           }

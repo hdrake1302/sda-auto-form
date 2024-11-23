@@ -25,6 +25,7 @@ async function main() {
           target: { tabId: currentTab.id },
           files: [contentScriptPath],
         });
+        
       }
 
       if (request.type === "bg-handle-paste") {
@@ -138,7 +139,7 @@ async function main() {
       }
     }
 
-    return true;
+    return;
   });
 }
 
